@@ -6,7 +6,7 @@ namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddGameInterfaceOBetClient(
+    public static IServiceCollection AddGameInterfacePragmaticPlayClient(
         this IServiceCollection services,
         Action<GameInterfacePragmaticPlayClientOptions, IServiceProvider> configure)
         => services
@@ -27,7 +27,7 @@ public static class ServiceCollectionExtensions
                     KeepAlivePingTimeout = TimeSpan.FromSeconds(30),
                     EnableMultipleHttp2Connections = true
                 };
-                
+
                 configureChannel.HttpHandler = handler;
             })
             .AddInterceptor<LoggingInterceptor>()

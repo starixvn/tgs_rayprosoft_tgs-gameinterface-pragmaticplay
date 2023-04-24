@@ -1,5 +1,4 @@
-﻿using Tgs.GameInterface.OBet.Protos;
-using Tgs.GameInterface.PragmaticPlay.Protos;
+﻿using Tgs.GameInterface.PragmaticPlay.Protos;
 
 namespace Tgs.GameInterface.PragmaticPlay.Client;
 
@@ -34,7 +33,26 @@ public interface IGameInterfacePragmaticPlayClient
         string orderId,
         CancellationToken cancellationToken = default);
 
+    ValueTask<GameRecordReply> GameRecordByLiveAsync(
+        Uri apiUrl,
+        string secureLogin,
+        string secretKey,
+        DateTimeOffset startTime,
+        CancellationToken cancellationToken = default);
 
+    ValueTask<GameRecordReply> GameRecordBySlotAsync(
+        Uri apiUrl,
+        string secureLogin,
+        string secretKey,
+        DateTimeOffset startTime,
+        CancellationToken cancellationToken = default);
+
+    ValueTask<GameRecordReply> GameRecordByVirtualSportsAsync(
+        Uri apiUrl,
+        string secureLogin,
+        string secretKey,
+        DateTimeOffset startTime,
+        CancellationToken cancellationToken = default);
 
     ValueTask<GameUrlReply> GameUrlAsync(
         Uri apiUrl,

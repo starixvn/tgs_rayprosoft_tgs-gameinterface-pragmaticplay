@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using Google.Protobuf.WellKnownTypes;
+﻿using Google.Protobuf.WellKnownTypes;
 using Tgs.GameInterface.PragmaticPlay.Protos;
 
 namespace Tgs.GameInterface.PragmaticPlay.Client;
@@ -17,14 +16,12 @@ internal class GameInterfacePragmaticPlayClient : IGameInterfacePragmaticPlayCli
         string machineName,
         CancellationToken cancellationToken = default)
     {
-        var request = new CheckingServiceRequest
-        {
-            MachineName = machineName,
-        };
-
         var reply = await _client
             .CheckingServiceAsync(
-                request: request,
+                request: new CheckingServiceRequest
+                {
+                    MachineName = machineName
+                },
                 cancellationToken: cancellationToken)
             .ConfigureAwait(false);
 
@@ -33,10 +30,10 @@ internal class GameInterfacePragmaticPlayClient : IGameInterfacePragmaticPlayCli
 
     public async ValueTask<FundReply> FundInAsync(
         Uri apiUrl,
-        string apiKey,
-        string agentId,
+        string secureLogin,
+        string secretKey,
         string playerCode,
-        string serialNo,
+        string orderId,
         decimal amount,
         CancellationToken cancellationToken = default)
         => await _client
@@ -44,10 +41,10 @@ internal class GameInterfacePragmaticPlayClient : IGameInterfacePragmaticPlayCli
             request: new FundRequest
             {
                 ApiUrl = apiUrl.ToString(),
-                ApiKey = apiKey,
-                AgentId = agentId,
+                SecureLogin = secureLogin,
+                SecretKey = secretKey,
                 PlayerCode = playerCode,
-                SerialNo = serialNo,
+                OrderId = orderId,
                 Amount = amount
             },
             cancellationToken: cancellationToken)
@@ -55,10 +52,10 @@ internal class GameInterfacePragmaticPlayClient : IGameInterfacePragmaticPlayCli
 
     public async ValueTask<FundReply> FundOutAsync(
         Uri apiUrl,
-        string apiKey,
-        string agentId,
+        string secureLogin,
+        string secretKey,
         string playerCode,
-        string serialNo,
+        string orderId,
         decimal amount,
         CancellationToken cancellationToken = default)
         => await _client
@@ -66,10 +63,10 @@ internal class GameInterfacePragmaticPlayClient : IGameInterfacePragmaticPlayCli
             request: new FundRequest
             {
                 ApiUrl = apiUrl.ToString(),
-                ApiKey = apiKey,
-                AgentId = agentId,
+                SecureLogin = secureLogin,
+                SecretKey = secretKey,
                 PlayerCode = playerCode,
-                SerialNo = serialNo,
+                OrderId = orderId,
                 Amount = amount
             },
             cancellationToken: cancellationToken)
@@ -77,89 +74,110 @@ internal class GameInterfacePragmaticPlayClient : IGameInterfacePragmaticPlayCli
 
     public async ValueTask<bool> FundStatusAsync(
         Uri apiUrl,
-        string apiKey,
-        string agentId,
-        string playerCode,
-        string serialNo,
+        string secureLogin,
+        string secretKey,
+        string orderId,
         CancellationToken cancellationToken = default)
     {
         var reply = await _client
-        .FundStatusAsync(
-            request: new FundStatusRequest
-            {
-                ApiUrl = apiUrl.ToString(),
-                ApiKey = apiKey,
-                AgentId = agentId,
-                PlayerCode = playerCode,
-                SerialNo = serialNo
-            },
-            cancellationToken: cancellationToken)
-        .ConfigureAwait(false);
+            .FundStatusAsync(
+                request: new FundStatusRequest
+                {
+                    ApiUrl = apiUrl.ToString(),
+                    SecureLogin = secureLogin,
+                    SecretKey = secretKey,
+                    OrderId = orderId,
+                },
+                cancellationToken: cancellationToken)
+            .ConfigureAwait(false);
 
         return reply.State;
     }
 
-    public async IAsyncEnumerable<GameRecordInfo> GameRecordAsync(
+    public async ValueTask<GameRecordReply> GameRecordByLiveAsync(
         Uri apiUrl,
-        string apiKey,
-        string agentId,
-        DateTimeOffset startDate,
-        DateTimeOffset endDate,
-       [EnumeratorCancellation] CancellationToken cancellationToken = default)
-    {
-        var reply = await _client
-        .GameRecordAsync(
+        string secureLogin,
+        string secretKey,
+        DateTimeOffset startTime,
+        CancellationToken cancellationToken = default)
+        => await _client
+        .GameRecordByLiveAsync(
             request: new GameRecordRequest
             {
                 ApiUrl = apiUrl.ToString(),
-                ApiKey = apiKey,
-                AgentId = agentId,
-                StartDate = startDate.ToTimestamp(),
-                EndDate = endDate.ToTimestamp(),
+                SecureLogin = secureLogin,
+                SecretKey = secretKey,
+                StartTime = startTime.ToTimestamp(),
             },
             cancellationToken: cancellationToken)
         .ConfigureAwait(false);
 
-        var gameRecords = reply.Items
-            ?? Enumerable.Empty<GameRecordInfo>();
+    public async ValueTask<GameRecordReply> GameRecordBySlotAsync(
+        Uri apiUrl,
+        string secureLogin,
+        string secretKey,
+        DateTimeOffset startTime,
+        CancellationToken cancellationToken = default)
+        => await _client
+        .GameRecordBySlotAsync(
+            request: new GameRecordRequest
+            {
+                ApiUrl = apiUrl.ToString(),
+                SecureLogin = secureLogin,
+                SecretKey = secretKey,
+                StartTime = startTime.ToTimestamp(),
+            },
+            cancellationToken: cancellationToken)
+        .ConfigureAwait(false);
 
-        if (!gameRecords.Any())
-        {
-            yield break;
-        }
-
-        foreach (var gameRecord in gameRecords)
-        {
-            yield return gameRecord;
-        }
-    }
+    public async ValueTask<GameRecordReply> GameRecordByVirtualSportsAsync(
+        Uri apiUrl,
+        string secureLogin,
+        string secretKey,
+        DateTimeOffset startTime,
+        CancellationToken cancellationToken = default)
+        => await _client
+        .GameRecordByVirtualSportsAsync(
+            request: new GameRecordRequest
+            {
+                ApiUrl = apiUrl.ToString(),
+                SecureLogin = secureLogin,
+                SecretKey = secretKey,
+                StartTime = startTime.ToTimestamp(),
+            },
+            cancellationToken: cancellationToken)
+        .ConfigureAwait(false);
 
     public async ValueTask<GameUrlReply> GameUrlAsync(
         Uri apiUrl,
-        string apiKey,
-        string agentId,
+        string secureLogin,
+        string secretKey,
         string playerCode,
-        string lang,
+        string externalGameId,
+        string language,
         bool isMobile,
+        string? lobbyUrl,
         CancellationToken cancellationToken = default)
         => await _client
         .GameUrlAsync(
             request: new GameUrlRequest
             {
                 ApiUrl = apiUrl.ToString(),
-                ApiKey = apiKey,
-                AgentId = agentId,
+                SecureLogin = secureLogin,
+                SecretKey = secretKey,
                 PlayerCode = playerCode,
-                Lang = lang,
+                ExternalGameId = externalGameId,
+                Language = language,
                 IsMobile = isMobile,
+                LobbyUrl = lobbyUrl
             },
             cancellationToken: cancellationToken)
         .ConfigureAwait(false);
 
     public async ValueTask<PlayerBalanceReply> PlayerBalanceAsync(
         Uri apiUrl,
-        string apiKey,
-        string agentId,
+        string secureLogin,
+        string secretKey,
         string playerCode,
         CancellationToken cancellationToken = default)
         => await _client
@@ -167,8 +185,8 @@ internal class GameInterfacePragmaticPlayClient : IGameInterfacePragmaticPlayCli
             request: new PlayerBalanceRequest
             {
                 ApiUrl = apiUrl.ToString(),
-                ApiKey = apiKey,
-                AgentId = agentId,
+                SecureLogin = secureLogin,
+                SecretKey = secretKey,
                 PlayerCode = playerCode
             },
             cancellationToken: cancellationToken)
@@ -176,26 +194,28 @@ internal class GameInterfacePragmaticPlayClient : IGameInterfacePragmaticPlayCli
 
     public async ValueTask PlayerCreateAsync(
         Uri apiUrl,
-        string apiKey,
-        string agentId,
+        string secureLogin,
+        string secretKey,
         string playerCode,
+        string currencyCode,
         CancellationToken cancellationToken = default)
         => _ = await _client
         .PlayerCreateAsync(
             request: new PlayerCreateRequest
             {
                 ApiUrl = apiUrl.ToString(),
-                ApiKey = apiKey,
-                AgentId = agentId,
-                PlayerCode = playerCode
+                SecureLogin = secureLogin,
+                SecretKey = secretKey,
+                PlayerCode = playerCode,
+                CurrencyCode = currencyCode
             },
             cancellationToken: cancellationToken)
         .ConfigureAwait(false);
 
     public async ValueTask PlayerLogoutAsync(
         Uri apiUrl,
-        string apiKey,
-        string agentId,
+        string secureLogin,
+        string secretKey,
         string playerCode,
         CancellationToken cancellationToken = default)
         => _ = await _client
@@ -203,8 +223,8 @@ internal class GameInterfacePragmaticPlayClient : IGameInterfacePragmaticPlayCli
             request: new PlayerLogoutRequest
             {
                 ApiUrl = apiUrl.ToString(),
-                ApiKey = apiKey,
-                AgentId = agentId,
+                SecureLogin = secureLogin,
+                SecretKey = secretKey,
                 PlayerCode = playerCode
             },
             cancellationToken: cancellationToken)
