@@ -2,6 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Microsoft.Extensions.Logging;
+using Tgs.GameInterface.PragmaticPlay.Core.Exceptions;
 using Tgs.GameInterface.PragmaticPlay.Core.Extensions;
 using Tgs.GameInterface.PragmaticPlay.Core.Models;
 
@@ -51,7 +52,10 @@ internal class GameApiClient : IGameApiClient
 
         if (!jsonNode["error"]!.GetValue<string>().Equals("0", StringComparison.OrdinalIgnoreCase))
         {
-            throw new Exception($"The game provider responded with an error.({jsonNode.ToJsonString()})");
+            throw new GameInterfaceException(
+                error: jsonNode["error"]!.GetValue<string>(),
+                description: jsonNode["description"]?.GetValue<string>() ?? string.Empty,
+                json: jsonNode.ToJsonString());
         }
     }
 
@@ -84,7 +88,10 @@ internal class GameApiClient : IGameApiClient
             .ConfigureAwait(false);
 
         return jsonNode["error"]!.GetValue<string>() != "0"
-            ? throw new Exception($"The game provider responded with an error.({jsonNode.ToJsonString()})")
+            ? throw new GameInterfaceException(
+                error: jsonNode["error"]!.GetValue<string>(),
+                description: jsonNode["description"]?.GetValue<string>() ?? string.Empty,
+                json: jsonNode.ToJsonString())
             : new DepositResult(
             TransactionId: jsonNode["transactionId"]!.GetValue<long>(),
             Balance: jsonNode["balance"]!.GetValue<decimal>(),
@@ -121,7 +128,10 @@ internal class GameApiClient : IGameApiClient
                 ? new BalanceResult(
                     IsPlayerExist: false,
                     Balance: 0.0m)
-                : throw new Exception($"The game provider responded with an error.({jsonNode.ToJsonString()})");
+                : throw new GameInterfaceException(
+                error: jsonNode["error"]!.GetValue<string>(),
+                description: jsonNode["description"]?.GetValue<string>() ?? string.Empty,
+                json: jsonNode.ToJsonString());
         }
 
         var balance = jsonNode["balance"]!.GetValue<decimal>();
@@ -162,7 +172,10 @@ internal class GameApiClient : IGameApiClient
             .ConfigureAwait(false);
 
         return !jsonNode["error"]!.GetValue<string>().Equals("0", StringComparison.OrdinalIgnoreCase)
-            ? throw new Exception($"The game provider responded with an error.({jsonNode.ToJsonString()})")
+            ? throw new GameInterfaceException(
+                error: jsonNode["error"]!.GetValue<string>(),
+                description: jsonNode["description"]?.GetValue<string>() ?? string.Empty,
+                json: jsonNode.ToJsonString())
             : jsonNode["url"]!.GetValue<string>();
     }
 
@@ -206,11 +219,17 @@ internal class GameApiClient : IGameApiClient
                 ? new GameUrlResult(
                     IsPlayerExist: false,
                     GameUrl: string.Empty)
-                : throw new Exception($"The game provider responded with an error.({jsonNode.ToJsonString()})");
+                : throw new GameInterfaceException(
+                error: jsonNode["error"]!.GetValue<string>(),
+                description: jsonNode["description"]?.GetValue<string>() ?? string.Empty,
+                json: jsonNode.ToJsonString());
         }
 
         var gameUrl = jsonNode["gameURL"]!.GetValue<string>()
-            ?? throw new Exception($"The game provider responded with an error.({jsonNode.ToJsonString()})");
+            ?? throw new GameInterfaceException(
+                error: jsonNode["error"]!.GetValue<string>(),
+                description: jsonNode["description"]?.GetValue<string>() ?? string.Empty,
+                json: jsonNode.ToJsonString());
 
         return new GameUrlResult(
             IsPlayerExist: true,
@@ -268,7 +287,10 @@ internal class GameApiClient : IGameApiClient
 
         return jsonNode["error"]!.ToString() != "0"
             || !jsonNode["status"]!.GetValue<string>().Equals("Success", StringComparison.OrdinalIgnoreCase)
-            ? throw new Exception($"The game provider responded with an error.({jsonNode.ToJsonString()})")
+            ? throw new GameInterfaceException(
+                error: jsonNode["error"]!.GetValue<string>(),
+                description: jsonNode["description"]?.GetValue<string>() ?? string.Empty,
+                json: jsonNode.ToJsonString())
             : true;
     }
 
@@ -301,7 +323,10 @@ internal class GameApiClient : IGameApiClient
             .ConfigureAwait(false);
 
         return jsonNode["error"]!.GetValue<string>() != "0"
-            ? throw new Exception($"The game provider responded with an error.({jsonNode.ToJsonString()})")
+            ? throw new GameInterfaceException(
+                error: jsonNode["error"]!.GetValue<string>(),
+                description: jsonNode["description"]?.GetValue<string>() ?? string.Empty,
+                json: jsonNode.ToJsonString())
             : new WithdrawalResult(
             TransactionId: jsonNode["transactionId"]!.GetValue<long>(),
             Balance: jsonNode["balance"]!.GetValue<decimal>(),

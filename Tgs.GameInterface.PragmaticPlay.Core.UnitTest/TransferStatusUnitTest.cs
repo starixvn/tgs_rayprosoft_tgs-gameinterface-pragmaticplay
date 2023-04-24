@@ -5,6 +5,7 @@ using System.Text.Json;
 using Microsoft.Extensions.Logging.Abstractions;
 using NSubstitute;
 using RichardSzalay.MockHttp;
+using Tgs.GameInterface.PragmaticPlay.Core.Exceptions;
 
 namespace Tgs.GameInterface.PragmaticPlay.Core.UnitTest;
 
@@ -62,7 +63,7 @@ public class TransferStatusUnitTest
             fakeHttpClient);
 
         _ = await Assert
-            .ThrowsAsync<Exception>(() => client
+            .ThrowsAsync<GameInterfaceException>(() => client
                 .TransferStatusAsync(
                     apiUrl: apiUrl,
                     secureLogin: secureLogin,
