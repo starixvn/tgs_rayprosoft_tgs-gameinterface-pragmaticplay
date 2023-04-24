@@ -47,7 +47,10 @@ internal class GameRoundClient : IGameRoundClient
 
         if (string.IsNullOrEmpty(data) || !data.StartsWith("timepoint"))
         {
-            throw new Exception($"The game provider responded with an error.({data})");
+            _logger.LogWarning($"The game provider responded with an error.({data})");
+            return new GameRoundsResult<GameRoundByLiveData>(
+                DateTimeOffset.UnixEpoch,
+                Enumerable.Empty<GameRoundByLiveData>());
         }
 
         using var stringReader = new StringReader(data);
@@ -95,7 +98,10 @@ internal class GameRoundClient : IGameRoundClient
 
         if (string.IsNullOrEmpty(data) || !data.StartsWith("timepoint"))
         {
-            throw new Exception($"The game provider responded with an error.({data})");
+            _logger.LogWarning($"The game provider responded with an error.({data})");
+            return new GameRoundsResult<GameRoundBySlotData>(
+                DateTimeOffset.UnixEpoch,
+                Enumerable.Empty<GameRoundBySlotData>());
         }
 
         using var stringReader = new StringReader(data);
@@ -141,9 +147,14 @@ internal class GameRoundClient : IGameRoundClient
                 cancellationToken: cancellationToken)
             .ConfigureAwait(false);
 
+
+
         if (string.IsNullOrEmpty(data) || !data.StartsWith("timepoint"))
         {
-            throw new Exception($"The game provider responded with an error.({data})");
+            _logger.LogWarning($"The game provider responded with an error.({data})");
+            return new GameRoundsResult<GameRoundByVirtualSportsData>(
+                DateTimeOffset.UnixEpoch,
+                Enumerable.Empty<GameRoundByVirtualSportsData>());
         }
 
         using var stringReader = new StringReader(data);
@@ -172,7 +183,7 @@ internal class GameRoundClient : IGameRoundClient
         string logPrefix,
         CancellationToken cancellationToken = default)
     {
-        logPrefix = $"{nameof(GameApiClient)}.{logPrefix}.ToLower()";
+        logPrefix = $"{nameof(GameApiClient)}.{logPrefix}".ToLower();
 
         var sw = Stopwatch.StartNew();
         var httpResponseMessage = await _client
