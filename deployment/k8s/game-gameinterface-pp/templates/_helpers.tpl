@@ -50,7 +50,7 @@ app.kubernetes.io/name: {{ include "game-gameinterface-pp.name" . }}
 app: {{ include "game-gameinterface-pp.name" . }}
 tgs.kind: game
 tgs.game.kind: gameinterface
-tgs.gameprovider.kind: pptf
+tgs.gameprovider.kind: pp
 {{- end }}
 
 {{/*
