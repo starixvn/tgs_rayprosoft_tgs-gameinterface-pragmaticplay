@@ -54,6 +54,16 @@ public interface IGameInterfacePragmaticPlayClient
         DateTimeOffset startTime,
         CancellationToken cancellationToken = default);
 
+    ValueTask<GameRecordDetailReply> GameRecordDetailAsync(
+        Uri apiUrl,
+        string secureLogin,
+        string secretKey,
+        string playerCode,
+        string externalRoundId,
+        string externalGameId,
+        string language,
+        CancellationToken cancellationToken = default);
+
     ValueTask<GameUrlReply> GameUrlAsync(
         Uri apiUrl,
         string secureLogin,

@@ -148,6 +148,30 @@ internal class GameInterfacePragmaticPlayClient : IGameInterfacePragmaticPlayCli
             cancellationToken: cancellationToken)
         .ConfigureAwait(false);
 
+    public async ValueTask<GameRecordDetailReply> GameRecordDetailAsync(
+        Uri apiUrl,
+        string secureLogin,
+        string secretKey,
+        string playerCode,
+        string externalRoundId,
+        string externalGameId,
+        string language,
+        CancellationToken cancellationToken = default)
+        => await _client
+        .GameRecordDetailAsync(
+            request: new GameRecordDetailRequest
+            {
+                ApiUrl = apiUrl.ToString(),
+                SecureLogin = secureLogin,
+                SecretKey = secretKey,
+                PlayerCode = playerCode,
+                ExternalRoundId = externalRoundId,
+                ExternalGameId = externalGameId,
+                Language = language
+            },
+            cancellationToken: cancellationToken)
+        .ConfigureAwait(false);
+
     public async ValueTask<GameUrlReply> GameUrlAsync(
         Uri apiUrl,
         string secureLogin,
