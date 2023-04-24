@@ -152,6 +152,7 @@ namespace Tgs.GameInterface.PragmaticPlay.GrpcServices
                     x => new GameRecordData
                     {
                         ExternalRoundId = x.ExternalRoundId,
+                        ExternalGameId = x.ExternalGameId,
                         PlayerCode = x.PlayerCode,
                         IsClosed = x.IsClosed,
                         ExternalCreatedOn = x.ExternalCreatedOn.ToTimestamp(),
@@ -191,6 +192,7 @@ namespace Tgs.GameInterface.PragmaticPlay.GrpcServices
                     x => new GameRecordData
                     {
                         ExternalRoundId = x.ExternalRoundId,
+                        ExternalGameId = x.ExternalGameId,
                         PlayerCode = x.PlayerCode,
                         IsClosed = x.IsClosed,
                         ExternalCreatedOn = x.ExternalCreatedOn.ToTimestamp(),
@@ -230,6 +232,7 @@ namespace Tgs.GameInterface.PragmaticPlay.GrpcServices
                     x => new GameRecordData
                     {
                         ExternalRoundId = x.ExternalRoundId,
+                        ExternalGameId = x.ExternalGameId,
                         PlayerCode = x.PlayerCode,
                         IsClosed = x.IsClosed,
                         ExternalCreatedOn = x.ExternalCreatedOn.ToTimestamp(),

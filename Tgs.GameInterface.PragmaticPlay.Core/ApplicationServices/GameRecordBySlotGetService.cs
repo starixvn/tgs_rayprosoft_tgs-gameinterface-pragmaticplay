@@ -38,6 +38,7 @@ internal class GameRecordBySlotGetService : IGetService<GameRecordBySlotQuery, G
                 .Where(gameround => !gameround.Type.Equals("F", StringComparison.OrdinalIgnoreCase))
                 .Select(gameround => new GameRecordData(
                     ExternalRoundId: gameround.PlaySessionID,
+                    ExternalGameId: gameround.GameID,
                     PlayerCode: gameround.ExtPlayerID,
                     IsClosed: gameround.Status.Equals("C", StringComparison.OrdinalIgnoreCase),
                     ExternalCreatedOn: DateTimeOffset.Parse(gameround.StartDate, null, DateTimeStyles.AssumeUniversal),

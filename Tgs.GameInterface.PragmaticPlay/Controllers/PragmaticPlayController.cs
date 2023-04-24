@@ -171,6 +171,7 @@ namespace Tgs.GameInterface.PragmaticPlay.Controllers
                 GameRecordDatas: result.GameRecordDatas.Select(
                     x => new GameRecordDataViewModel(
                         ExternalRoundId: x.ExternalRoundId,
+                        ExternalGameId: x.ExternalGameId,
                         PlayerCode: x.PlayerCode,
                         IsClosed: x.IsClosed,
                         ExternalCreatedOn: x.ExternalCreatedOn,
@@ -221,6 +222,7 @@ namespace Tgs.GameInterface.PragmaticPlay.Controllers
                 GameRecordDatas: result.GameRecordDatas.Select(
                     x => new GameRecordDataViewModel(
                         ExternalRoundId: x.ExternalRoundId,
+                        ExternalGameId: x.ExternalGameId,
                         PlayerCode: x.PlayerCode,
                         IsClosed: x.IsClosed,
                         ExternalCreatedOn: x.ExternalCreatedOn,
@@ -271,6 +273,7 @@ namespace Tgs.GameInterface.PragmaticPlay.Controllers
                 GameRecordDatas: result.GameRecordDatas.Select(
                     x => new GameRecordDataViewModel(
                         ExternalRoundId: x.ExternalRoundId,
+                        ExternalGameId: x.ExternalGameId,
                         PlayerCode: x.PlayerCode,
                         IsClosed: x.IsClosed,
                         ExternalCreatedOn: x.ExternalCreatedOn,

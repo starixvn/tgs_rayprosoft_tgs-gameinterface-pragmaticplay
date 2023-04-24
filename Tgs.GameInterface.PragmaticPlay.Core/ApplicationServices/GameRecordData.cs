@@ -2,6 +2,7 @@
 
 public record GameRecordData(
     string ExternalRoundId,
+    string ExternalGameId,
     string PlayerCode,
     bool IsClosed,
     DateTimeOffset ExternalCreatedOn,

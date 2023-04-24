@@ -58,6 +58,7 @@ public class GameRecordByLiveGetServiceUnitTest
         Assert.Equal(result.NextTime, actual.NextTime);
         Assert.True(actual.GameRecordDatas.Any());
         Assert.True(actual.GameRecordDatas.Single().IsClosed);
+        Assert.Equal("439", actual.GameRecordDatas.Single().ExternalGameId);
         Assert.Equal(DateTimeOffset.Parse("2023-04-21T03:24:14+00:00"), actual.GameRecordDatas.Single().ExternalCreatedOn);
         Assert.Equal(DateTimeOffset.Parse("2023-04-21T03:24:38+00:00"), actual.GameRecordDatas.Single().ExternalClosedOn);
         Assert.Equal(1, actual.GameRecordDatas.Single().Bet);
@@ -117,6 +118,7 @@ public class GameRecordByLiveGetServiceUnitTest
         Assert.Equal(result.NextTime, actual.NextTime);
         Assert.True(actual.GameRecordDatas.Any());
         Assert.False(actual.GameRecordDatas.Single().IsClosed);
+        Assert.Equal("439", actual.GameRecordDatas.Single().ExternalGameId);
         Assert.Equal(DateTimeOffset.Parse("2023-04-21T03:24:47+00:00"), actual.GameRecordDatas.Single().ExternalCreatedOn);
         Assert.Equal(DateTimeOffset.UnixEpoch, actual.GameRecordDatas.Single().ExternalClosedOn);
         Assert.Equal(1, actual.GameRecordDatas.Single().Bet);

@@ -109,6 +109,7 @@ public class GameRecordBySlotGetServiceUnitTest
         Assert.Equal(result.NextTime, actual.NextTime);
         Assert.True(actual.GameRecordDatas.Any());
         Assert.True(actual.GameRecordDatas.Single().IsClosed);
+        Assert.Equal("vs243lionsgold", actual.GameRecordDatas.Single().ExternalGameId);
         Assert.Equal(DateTimeOffset.Parse("2023-04-21T03:15:56+00:00"), actual.GameRecordDatas.Single().ExternalCreatedOn);
         Assert.Equal(DateTimeOffset.Parse("2023-04-21T03:15:57+00:00"), actual.GameRecordDatas.Single().ExternalClosedOn);
         Assert.Equal(0.54m, actual.GameRecordDatas.Single().Bet);
@@ -167,6 +168,7 @@ public class GameRecordBySlotGetServiceUnitTest
         Assert.Equal(result.NextTime, actual.NextTime);
         Assert.True(actual.GameRecordDatas.Any());
         Assert.False(actual.GameRecordDatas.Single().IsClosed);
+        Assert.Equal("vswaysmonkey", actual.GameRecordDatas.Single().ExternalGameId);
         Assert.Equal(DateTimeOffset.Parse("2023-04-21T05:36:39+00:00"), actual.GameRecordDatas.Single().ExternalCreatedOn);
         Assert.Equal(DateTimeOffset.UnixEpoch, actual.GameRecordDatas.Single().ExternalClosedOn);
         Assert.Equal(0.60m, actual.GameRecordDatas.Single().Bet);
