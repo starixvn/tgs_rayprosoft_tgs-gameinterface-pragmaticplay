@@ -147,8 +147,6 @@ internal class GameRoundClient : IGameRoundClient
                 cancellationToken: cancellationToken)
             .ConfigureAwait(false);
 
-
-
         if (string.IsNullOrEmpty(data) || !data.StartsWith("timepoint"))
         {
             _logger.LogWarning($"The game provider responded with an error.({data})");
