@@ -45,18 +45,16 @@ public class ExportController : ControllerBase
             .ConfigureAwait(false);
 
         var config = new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = false };
-        using (MemoryStream stream = new MemoryStream())
-        using (TextWriter textWriter = new StreamWriter(stream, Encoding.UTF8))
-        using (CsvWriter csv = new CsvWriter(textWriter, config))
-        {
-            csv.WriteHeader<GetCasinoGamesResult>();
-            csv.NextRecord();
-            csv.WriteRecords(result);
-            textWriter.Flush();
-            return File(
-                fileContents: stream.ToArray(),
-                contentType: "text/csv",
-                fileDownloadName: $"PP_CasinoGames_{DateTimeOffset.UtcNow.ToUnixTimeSeconds()}.csv");
-        }
+        using MemoryStream stream = new MemoryStream();
+        using TextWriter textWriter = new StreamWriter(stream, Encoding.UTF8);
+        using CsvWriter csv = new CsvWriter(textWriter, config);
+        csv.WriteHeader<GetCasinoGamesResult>();
+        csv.NextRecord();
+        csv.WriteRecords(result);
+        textWriter.Flush();
+        return File(
+            fileContents: stream.ToArray(),
+            contentType: "text/csv",
+            fileDownloadName: $"PP_CasinoGames_{DateTimeOffset.UtcNow.ToOffset(TimeSpan.FromHours(8)):yyyyMMddHHmmss}.csv");
     }
 }

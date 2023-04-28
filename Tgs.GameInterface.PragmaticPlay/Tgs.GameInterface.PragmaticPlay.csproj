@@ -8,7 +8,7 @@
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	<PropertyGroup>
 		<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
 		<NoWarn>$(NoWarn);1591;0063</NoWarn>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
@@ -16,7 +16,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="Protos\gameinterfacePragmaticPlay.proto" />
+		<None Remove="Protos\gameinterfacePragmaticPlay.proto" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -43,7 +43,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Protobuf Include="Protos\gameinterfacepragmaticplay.proto" />
+		<Protobuf Include="Protos\gameinterfacepragmaticplay.proto" />
 	</ItemGroup>
 
 </Project>
