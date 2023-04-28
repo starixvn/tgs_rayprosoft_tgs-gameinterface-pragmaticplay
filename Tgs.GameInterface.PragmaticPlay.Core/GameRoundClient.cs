@@ -47,7 +47,7 @@ internal class GameRoundClient : IGameRoundClient
 
         if (string.IsNullOrEmpty(data) || !data.StartsWith("timepoint"))
         {
-            _logger.LogWarning($"The game provider responded with an error.({data})");
+            _logger.LogWarning("The game provider responded with an error.({data})", data);
             return new GameRoundsResult<GameRoundByLiveData>(
                 DateTimeOffset.UnixEpoch,
                 Enumerable.Empty<GameRoundByLiveData>());
@@ -98,7 +98,7 @@ internal class GameRoundClient : IGameRoundClient
 
         if (string.IsNullOrEmpty(data) || !data.StartsWith("timepoint"))
         {
-            _logger.LogWarning($"The game provider responded with an error.({data})");
+            _logger.LogWarning("The game provider responded with an error.({data})", data);
             return new GameRoundsResult<GameRoundBySlotData>(
                 DateTimeOffset.UnixEpoch,
                 Enumerable.Empty<GameRoundBySlotData>());
@@ -149,7 +149,7 @@ internal class GameRoundClient : IGameRoundClient
 
         if (string.IsNullOrEmpty(data) || !data.StartsWith("timepoint"))
         {
-            _logger.LogWarning($"The game provider responded with an error.({data})");
+            _logger.LogWarning("The game provider responded with an error.({data})", data);
             return new GameRoundsResult<GameRoundByVirtualSportsData>(
                 DateTimeOffset.UnixEpoch,
                 Enumerable.Empty<GameRoundByVirtualSportsData>());

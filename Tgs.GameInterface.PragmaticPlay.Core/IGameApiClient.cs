@@ -28,8 +28,14 @@ public interface IGameApiClient
         string externalPlayerId,
         CancellationToken cancellationToken = default);
 
-    ValueTask<string> GetGameDetailUrlAsync(
+    IAsyncEnumerable<GetCasinoGamesResult> GetCasinoGamesAsync(
         Uri apiUrl,
+        string secureLogin,
+        string secretKey,
+        CancellationToken cancellationToken = default);
+
+    ValueTask<string> GetGameDetailUrlAsync(
+            Uri apiUrl,
         string secureLogin,
         string secretKey,
         string externalPlayerId,

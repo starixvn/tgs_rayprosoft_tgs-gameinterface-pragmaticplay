@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Microsoft.Extensions.Logging;
@@ -141,8 +142,67 @@ internal class GameApiClient : IGameApiClient
             Balance: balance);
     }
 
-    public async ValueTask<string> GetGameDetailUrlAsync(
+    public async IAsyncEnumerable<GetCasinoGamesResult> GetCasinoGamesAsync(
         Uri apiUrl,
+        string secureLogin,
+         string secretKey,
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    {
+        var parameters = new Dictionary<string, string>
+        {
+            ["secureLogin"] = secureLogin,
+            ["options"] = "GetFrbDetails,GetLines,GetDataTypes,GetFeatures"
+        };
+
+        var hash = _cryptographyUtensil.GenerateHash(parameters, secretKey);
+        parameters["hash"] = hash;
+
+        var jsonNode = await PostAsync(
+                apiUrl: apiUrl,
+                path: "/IntegrationService/v3/http/CasinoGameAPI/getCasinoGames/",
+                parameters: parameters,
+                logPrefix: " GetCasinoGames",
+                cancellationToken: cancellationToken)
+            .ConfigureAwait(false);
+
+        if (jsonNode["error"]!.GetValue<string>() != "0")
+        {
+            throw new GameInterfaceException(
+                error: jsonNode["error"]!.GetValue<string>(),
+                description: jsonNode["description"]?.GetValue<string>() ?? string.Empty,
+                json: jsonNode.ToJsonString());
+        }
+
+        var gameList = jsonNode["gameList"]!.AsArray();
+
+        if (!gameList.Any())
+        {
+            yield break;
+        }
+
+        foreach (var game in gameList)
+        {
+            if (game is null)
+            {
+                continue;
+            }
+            yield return new GetCasinoGamesResult
+            {
+                GameID = game["gameID"]!.GetValue<string>(),
+                GameName = game["gameName"]!.GetValue<string>(),
+                GameTypeID = game["gameTypeID"]!.GetValue<string>(),
+                TypeDescription = game["typeDescription"]!.GetValue<string>(),
+                Technology = game["technology"]!.GetValue<string>(),
+                Platform = game["platform"]!.GetValue<string>(),
+                DemoGameAvailable = game["demoGameAvailable"]!.GetValue<bool>(),
+                GameIdNumeric = game["gameIdNumeric"]!.GetValue<int>(),
+                DataType = game["dataType"]!.GetValue<string>()
+            };
+        }
+    }
+
+    public async ValueTask<string> GetGameDetailUrlAsync(
+            Uri apiUrl,
         string secureLogin,
         string secretKey,
         string externalPlayerId,
