@@ -19,19 +19,15 @@ public class PlayerLogoutCommandServiceUnitTest
         var client = new PlayerLogoutCommandService(
             fakeClient);
 
-        await client
-            .ExecuteAsync(
-                command)
-            .ConfigureAwait(false);
+        await client.ExecuteAsync(command);
 
         await fakeClient
             .Received(1)
             .LogoutAsync(
-               apiUrl: Arg.Is(command.ApiUrl),
-               secureLogin: Arg.Is(command.SecureLogin),
-               secretKey: Arg.Is(command.SecretKey),
-               externalPlayerId: Arg.Is(command.PlayerCode),
-               cancellationToken: Arg.Any<CancellationToken>())
-           .ConfigureAwait(false);
+            apiUrl: Arg.Is(command.ApiUrl),
+            secureLogin: Arg.Is(command.SecureLogin),
+            secretKey: Arg.Is(command.SecretKey),
+            externalPlayerId: Arg.Is(command.PlayerCode),
+            cancellationToken: Arg.Any<CancellationToken>());
     }
 }

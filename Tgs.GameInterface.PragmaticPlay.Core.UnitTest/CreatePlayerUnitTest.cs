@@ -51,7 +51,7 @@ public class CreatePlayerUnitTest
         var handler = new MockHttpMessageHandler();
         _ = handler
             .Expect(HttpMethod.Post, "/IntegrationService/v3/http/CasinoGameAPI/player/account/create/")
-            .WithContent(await requestcontent.ReadAsStringAsync().ConfigureAwait(false))
+            .WithContent(await requestcontent.ReadAsStringAsync())
             .Respond(HttpStatusCode.OK, responseContent);
 
         var fakeHttpClient = handler.ToHttpClient();

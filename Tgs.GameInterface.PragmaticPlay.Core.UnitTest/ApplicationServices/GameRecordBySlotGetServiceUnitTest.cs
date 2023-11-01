@@ -48,10 +48,7 @@ public class GameRecordBySlotGetServiceUnitTest
         var client = new GameRecordBySlotGetService(
             fakeClient);
 
-        var actual = await client
-            .GetAsync(
-               query)
-           .ConfigureAwait(false);
+        var actual = await client.GetAsync(query);
 
         Assert.NotNull(actual);
         Assert.Equal(result.NextTime, actual.NextTime);
@@ -100,10 +97,7 @@ public class GameRecordBySlotGetServiceUnitTest
         var client = new GameRecordBySlotGetService(
             fakeClient);
 
-        var actual = await client
-            .GetAsync(
-               query)
-           .ConfigureAwait(false);
+        var actual = await client.GetAsync(query);
 
         Assert.NotNull(actual);
         Assert.Equal(result.NextTime, actual.NextTime);
@@ -159,10 +153,7 @@ public class GameRecordBySlotGetServiceUnitTest
         var client = new GameRecordBySlotGetService(
             fakeClient);
 
-        var actual = await client
-            .GetAsync(
-               query)
-           .ConfigureAwait(false);
+        var actual = await client.GetAsync(query);
 
         Assert.NotNull(actual);
         Assert.Equal(result.NextTime, actual.NextTime);

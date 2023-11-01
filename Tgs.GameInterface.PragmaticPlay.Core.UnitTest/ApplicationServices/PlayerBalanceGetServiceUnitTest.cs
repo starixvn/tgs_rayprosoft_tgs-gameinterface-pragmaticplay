@@ -32,10 +32,7 @@ public class PlayerBalanceGetServiceUnitTest
         var client = new PlayerBalanceGetService(
             fakeClient);
 
-        var actual = await client
-            .GetAsync(
-               query)
-           .ConfigureAwait(false);
+        var actual = await client.GetAsync(query);
 
         Assert.NotNull(actual);
         Assert.NotNull(actual);

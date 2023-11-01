@@ -44,7 +44,7 @@ public class GetCasinoGamesUnitTest
         var handler = new MockHttpMessageHandler();
         _ = handler
             .Expect(HttpMethod.Post, "/IntegrationService/v3/http/CasinoGameAPI/getCasinoGames/")
-            .WithContent(await requestcontent.ReadAsStringAsync().ConfigureAwait(false))
+            .WithContent(await requestcontent.ReadAsStringAsync())
             .Respond(HttpStatusCode.OK, responseContent);
 
         var fakeHttpClient = handler.ToHttpClient();
@@ -55,14 +55,12 @@ public class GetCasinoGamesUnitTest
             fakeHttpClient);
 
         _ = await Assert.ThrowsAsync<GameInterfaceException>(
-                () => client
-                    .GetCasinoGamesAsync(
-                        apiUrl: apiUrl,
-                        secureLogin: secureLogin,
-                        secretKey: secretKey)
-                    .ToArrayAsync()
-                    .AsTask())
-             .ConfigureAwait(false);
+            () => client.GetCasinoGamesAsync(
+                apiUrl: apiUrl,
+                secureLogin: secureLogin,
+                secretKey: secretKey)
+            .ToArrayAsync()
+            .AsTask());
     }
 
     [Fact]
@@ -98,7 +96,7 @@ public class GetCasinoGamesUnitTest
         var handler = new MockHttpMessageHandler();
         _ = handler
             .Expect(HttpMethod.Post, "/IntegrationService/v3/http/CasinoGameAPI/getCasinoGames/")
-            .WithContent(await requestcontent.ReadAsStringAsync().ConfigureAwait(false))
+            .WithContent(await requestcontent.ReadAsStringAsync())
             .Respond(HttpStatusCode.OK, responseContent);
 
         var fakeHttpClient = handler.ToHttpClient();
@@ -108,13 +106,11 @@ public class GetCasinoGamesUnitTest
             fakeCryptographyUtensil,
             fakeHttpClient);
 
-        var actual = await client
-            .GetCasinoGamesAsync(
-                apiUrl: apiUrl,
-                secureLogin: secureLogin,
-                secretKey: secretKey)
+        var actual = await client.GetCasinoGamesAsync(
+            apiUrl: apiUrl,
+            secureLogin: secureLogin,
+            secretKey: secretKey)
             .ToArrayAsync()
-            .ConfigureAwait(false)
             ?? Enumerable.Empty<GetCasinoGamesResult>();
 
         Assert.NotNull(actual);
@@ -154,7 +150,7 @@ public class GetCasinoGamesUnitTest
         var handler = new MockHttpMessageHandler();
         _ = handler
             .Expect(HttpMethod.Post, "/IntegrationService/v3/http/CasinoGameAPI/getCasinoGames/")
-            .WithContent(await requestcontent.ReadAsStringAsync().ConfigureAwait(false))
+            .WithContent(await requestcontent.ReadAsStringAsync())
             .Respond(HttpStatusCode.OK, responseContent);
 
         var fakeHttpClient = handler.ToHttpClient();
@@ -164,13 +160,11 @@ public class GetCasinoGamesUnitTest
             fakeCryptographyUtensil,
             fakeHttpClient);
 
-        var actual = await client
-            .GetCasinoGamesAsync(
-                apiUrl: apiUrl,
-                secureLogin: secureLogin,
-                secretKey: secretKey)
+        var actual = await client.GetCasinoGamesAsync(
+            apiUrl: apiUrl,
+            secureLogin: secureLogin,
+            secretKey: secretKey)
             .ToArrayAsync()
-            .ConfigureAwait(false)
             ?? Enumerable.Empty<GetCasinoGamesResult>();
 
         Assert.NotNull(actual);

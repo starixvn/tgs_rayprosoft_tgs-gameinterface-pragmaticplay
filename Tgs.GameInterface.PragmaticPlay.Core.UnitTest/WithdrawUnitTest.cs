@@ -55,7 +55,7 @@ public class WithdrawUnitTest
         var handler = new MockHttpMessageHandler();
         _ = handler
             .Expect(HttpMethod.Post, "/IntegrationService/v3/http/CasinoGameAPI/balance/transfer/")
-            .WithContent(await requestcontent.ReadAsStringAsync().ConfigureAwait(false))
+            .WithContent(await requestcontent.ReadAsStringAsync())
             .Respond(HttpStatusCode.OK, responseContent);
 
         var fakeHttpClient = handler.ToHttpClient();
@@ -65,17 +65,15 @@ public class WithdrawUnitTest
             fakeCryptographyUtensil,
             fakeHttpClient);
 
-        _ = await Assert
-            .ThrowsAsync<GameInterfaceException>(() => client
-                .WithdrawAsync(
-                    apiUrl: apiUrl,
-                    secureLogin: secureLogin,
-                    secretKey: secretKey,
-                    externalPlayerId: externalPlayerId,
-                    externalTransactionId: externalTransactionId,
-                    amount: amount)
-                .AsTask())
-            .ConfigureAwait(false);
+        _ = await Assert.ThrowsAsync<GameInterfaceException>(
+            () => client.WithdrawAsync(
+                apiUrl: apiUrl,
+                secureLogin: secureLogin,
+                secretKey: secretKey,
+                externalPlayerId: externalPlayerId,
+                externalTransactionId: externalTransactionId,
+                amount: amount)
+            .AsTask());
     }
 
     [Fact]
@@ -122,7 +120,7 @@ public class WithdrawUnitTest
         var handler = new MockHttpMessageHandler();
         _ = handler
             .Expect(HttpMethod.Post, "/IntegrationService/v3/http/CasinoGameAPI/balance/transfer/")
-            .WithContent(await requestcontent.ReadAsStringAsync().ConfigureAwait(false))
+            .WithContent(await requestcontent.ReadAsStringAsync())
             .Respond(HttpStatusCode.OK, responseContent);
 
         var fakeHttpClient = handler.ToHttpClient();
@@ -132,15 +130,13 @@ public class WithdrawUnitTest
             fakeCryptographyUtensil,
             fakeHttpClient);
 
-        var actual = await client
-            .WithdrawAsync(
-                apiUrl: apiUrl,
-                secureLogin: secureLogin,
-                secretKey: secretKey,
-                externalPlayerId: externalPlayerId,
-                externalTransactionId: externalTransactionId,
-                amount: amount)
-            .ConfigureAwait(false);
+        var actual = await client.WithdrawAsync(
+            apiUrl: apiUrl,
+            secureLogin: secureLogin,
+            secretKey: secretKey,
+            externalPlayerId: externalPlayerId,
+            externalTransactionId: externalTransactionId,
+            amount: amount);
 
         Assert.NotNull(actual);
         Assert.Equal(response.transactionId, actual.TransactionId);

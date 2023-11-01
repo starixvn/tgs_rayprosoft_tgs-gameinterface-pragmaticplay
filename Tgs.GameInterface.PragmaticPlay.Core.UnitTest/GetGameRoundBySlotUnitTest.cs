@@ -33,7 +33,7 @@ public class GetGameRoundBySlotUnitTest
         var handler = new MockHttpMessageHandler();
         _ = handler
             .Expect(HttpMethod.Get, "/IntegrationService/v3/DataFeeds/gamerounds/")
-            .WithQueryString(query.ToString())
+            .WithQueryString(query.ToString()!)
             .Respond(HttpStatusCode.OK, responseContent);
 
         var fakeHttpClient = handler.ToHttpClient();
@@ -42,13 +42,11 @@ public class GetGameRoundBySlotUnitTest
             fakeLog,
             fakeHttpClient);
 
-        var actual = await client
-            .GetGameRoundBySlotAsync(
-                apiUrl: apiUrl,
-                secureLogin: secureLogin,
-                secretKey: secretKey,
-                startTime: startTime)
-            .ConfigureAwait(false);
+        var actual = await client.GetGameRoundBySlotAsync(
+            apiUrl: apiUrl,
+            secureLogin: secureLogin,
+            secretKey: secretKey,
+            startTime: startTime);
 
         Assert.NotNull(actual);
         Assert.Equal("1682055513073", actual.NextTime.ToUnixTimeMilliseconds().ToString());
@@ -84,9 +82,8 @@ public class GetGameRoundBySlotUnitTest
         var responseContent = new StringContent(response, Encoding.UTF8, "text/csv");
 
         var handler = new MockHttpMessageHandler();
-        _ = handler
-            .Expect(HttpMethod.Get, "/IntegrationService/v3/DataFeeds/gamerounds/")
-            .WithQueryString(query.ToString())
+        _ = handler.Expect(HttpMethod.Get, "/IntegrationService/v3/DataFeeds/gamerounds/")
+            .WithQueryString(query.ToString()!)
             .Respond(HttpStatusCode.OK, responseContent);
 
         var fakeHttpClient = handler.ToHttpClient();
@@ -95,13 +92,11 @@ public class GetGameRoundBySlotUnitTest
             fakeLog,
             fakeHttpClient);
 
-        var actual = await client
-            .GetGameRoundBySlotAsync(
-                apiUrl: apiUrl,
-                secureLogin: secureLogin,
-                secretKey: secretKey,
-                startTime: startTime)
-            .ConfigureAwait(false);
+        var actual = await client.GetGameRoundBySlotAsync(
+            apiUrl: apiUrl,
+            secureLogin: secureLogin,
+            secretKey: secretKey,
+            startTime: startTime);
 
         Assert.NotNull(actual);
         Assert.Equal("1682047053189", actual.NextTime.ToUnixTimeMilliseconds().ToString());
@@ -137,9 +132,8 @@ public class GetGameRoundBySlotUnitTest
         var responseContent = new StringContent(response, Encoding.UTF8, "text/csv");
 
         var handler = new MockHttpMessageHandler();
-        _ = handler
-            .Expect(HttpMethod.Get, "/IntegrationService/v3/DataFeeds/gamerounds/")
-            .WithQueryString(query.ToString())
+        _ = handler.Expect(HttpMethod.Get, "/IntegrationService/v3/DataFeeds/gamerounds/")
+            .WithQueryString(query.ToString()!)
             .Respond(HttpStatusCode.OK, responseContent);
 
         var fakeHttpClient = handler.ToHttpClient();
@@ -148,13 +142,11 @@ public class GetGameRoundBySlotUnitTest
             fakeLog,
             fakeHttpClient);
 
-        var actual = await client
-            .GetGameRoundBySlotAsync(
-                apiUrl: apiUrl,
-                secureLogin: secureLogin,
-                secretKey: secretKey,
-                startTime: startTime)
-            .ConfigureAwait(false);
+        var actual = await client.GetGameRoundBySlotAsync(
+            apiUrl: apiUrl,
+            secureLogin: secureLogin,
+            secretKey: secretKey,
+            startTime: startTime);
 
         Assert.NotNull(actual);
         Assert.Equal("1682055513073", actual.NextTime.ToUnixTimeMilliseconds().ToString());

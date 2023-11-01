@@ -49,10 +49,7 @@ public class GameRecordByLiveGetServiceUnitTest
         var client = new GameRecordByLiveGetService(
             fakeClient);
 
-        var actual = await client
-            .GetAsync(
-               query)
-           .ConfigureAwait(false);
+        var actual = await client.GetAsync(query);
 
         Assert.NotNull(actual);
         Assert.Equal(result.NextTime, actual.NextTime);
@@ -109,10 +106,7 @@ public class GameRecordByLiveGetServiceUnitTest
         var client = new GameRecordByLiveGetService(
             fakeClient);
 
-        var actual = await client
-            .GetAsync(
-               query)
-           .ConfigureAwait(false);
+        var actual = await client.GetAsync(query);
 
         Assert.NotNull(actual);
         Assert.Equal(result.NextTime, actual.NextTime);

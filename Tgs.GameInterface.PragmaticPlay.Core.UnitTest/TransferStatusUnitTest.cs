@@ -52,7 +52,7 @@ public class TransferStatusUnitTest
         var handler = new MockHttpMessageHandler();
         _ = handler
             .Expect(HttpMethod.Post, "/IntegrationService/v3/http/CasinoGameAPI/balance/transfer/status/")
-            .WithContent(await requestcontent.ReadAsStringAsync().ConfigureAwait(false))
+            .WithContent(await requestcontent.ReadAsStringAsync())
             .Respond(HttpStatusCode.OK, responseContent);
 
         var fakeHttpClient = handler.ToHttpClient();
@@ -63,14 +63,13 @@ public class TransferStatusUnitTest
             fakeHttpClient);
 
         _ = await Assert
-            .ThrowsAsync<GameInterfaceException>(() => client
-                .TransferStatusAsync(
-                    apiUrl: apiUrl,
-                    secureLogin: secureLogin,
-                    secretKey: secretKey,
-                    externalTransactionId: externalTransactionId)
-                .AsTask())
-            .ConfigureAwait(false);
+            .ThrowsAsync<GameInterfaceException>
+            (() => client.TransferStatusAsync(
+                apiUrl: apiUrl,
+                secureLogin: secureLogin,
+                secretKey: secretKey,
+                externalTransactionId: externalTransactionId)
+                .AsTask());
     }
 
     [Fact]
@@ -115,7 +114,7 @@ public class TransferStatusUnitTest
         var handler = new MockHttpMessageHandler();
         _ = handler
             .Expect(HttpMethod.Post, "/IntegrationService/v3/http/CasinoGameAPI/balance/transfer/status/")
-            .WithContent(await requestcontent.ReadAsStringAsync().ConfigureAwait(false))
+            .WithContent(await requestcontent.ReadAsStringAsync())
             .Respond(HttpStatusCode.OK, responseContent);
 
         var fakeHttpClient = handler.ToHttpClient();
@@ -125,13 +124,11 @@ public class TransferStatusUnitTest
             fakeCryptographyUtensil,
             fakeHttpClient);
 
-        var actual = await client
-            .TransferStatusAsync(
-                apiUrl: apiUrl,
-                secureLogin: secureLogin,
-                secretKey: secretKey,
-                externalTransactionId: externalTransactionId)
-            .ConfigureAwait(false);
+        var actual = await client.TransferStatusAsync(
+            apiUrl: apiUrl,
+            secureLogin: secureLogin,
+            secretKey: secretKey,
+            externalTransactionId: externalTransactionId);
 
         Assert.True(actual);
     }

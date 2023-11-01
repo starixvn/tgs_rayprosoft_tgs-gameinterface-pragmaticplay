@@ -31,9 +31,8 @@ public class GetGameRoundByVirtualSportsUnitTest
         var responseContent = new StringContent(response, Encoding.UTF8, "text/csv");
 
         var handler = new MockHttpMessageHandler();
-        _ = handler
-            .Expect(HttpMethod.Get, "/IntegrationService/v3/DataFeeds/gamerounds/")
-            .WithQueryString(query.ToString())
+        _ = handler.Expect(HttpMethod.Get, "/IntegrationService/v3/DataFeeds/gamerounds/")
+            .WithQueryString(query.ToString()!)
             .Respond(HttpStatusCode.OK, responseContent);
 
         var fakeHttpClient = handler.ToHttpClient();
@@ -42,13 +41,11 @@ public class GetGameRoundByVirtualSportsUnitTest
             fakeLog,
             fakeHttpClient);
 
-        var actual = await client
-            .GetGameRoundByVirtualSportsAsync(
-                apiUrl: apiUrl,
-                secureLogin: secureLogin,
-                secretKey: secretKey,
-                startTime: startTime)
-            .ConfigureAwait(false);
+        var actual = await client.GetGameRoundByVirtualSportsAsync(
+            apiUrl: apiUrl,
+            secureLogin: secureLogin,
+            secretKey: secretKey,
+            startTime: startTime);
 
         Assert.NotNull(actual);
         Assert.Equal("1682049681569", actual.NextTime.ToUnixTimeMilliseconds().ToString());
@@ -84,9 +81,8 @@ public class GetGameRoundByVirtualSportsUnitTest
         var responseContent = new StringContent(response, Encoding.UTF8, "text/csv");
 
         var handler = new MockHttpMessageHandler();
-        _ = handler
-            .Expect(HttpMethod.Get, "/IntegrationService/v3/DataFeeds/gamerounds/")
-            .WithQueryString(query.ToString())
+        _ = handler.Expect(HttpMethod.Get, "/IntegrationService/v3/DataFeeds/gamerounds/")
+            .WithQueryString(query.ToString()!)
             .Respond(HttpStatusCode.OK, responseContent);
 
         var fakeHttpClient = handler.ToHttpClient();
@@ -95,13 +91,11 @@ public class GetGameRoundByVirtualSportsUnitTest
             fakeLog,
             fakeHttpClient);
 
-        var actual = await client
-            .GetGameRoundByVirtualSportsAsync(
-                apiUrl: apiUrl,
-                secureLogin: secureLogin,
-                secretKey: secretKey,
-                startTime: startTime)
-            .ConfigureAwait(false);
+        var actual = await client.GetGameRoundByVirtualSportsAsync(
+            apiUrl: apiUrl,
+            secureLogin: secureLogin,
+            secretKey: secretKey,
+            startTime: startTime);
 
         Assert.NotNull(actual);
         Assert.Equal("1682049681569", actual.NextTime.ToUnixTimeMilliseconds().ToString());

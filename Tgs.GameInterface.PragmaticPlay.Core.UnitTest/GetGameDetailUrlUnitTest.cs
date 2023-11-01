@@ -55,7 +55,7 @@ public class GetGameDetailUrlUnitTest
         var handler = new MockHttpMessageHandler();
         _ = handler
             .Expect(HttpMethod.Post, "/IntegrationService/v3/http/HistoryAPI/OpenHistoryExtended/")
-            .WithContent(await requestcontent.ReadAsStringAsync().ConfigureAwait(false))
+            .WithContent(await requestcontent.ReadAsStringAsync())
             .Respond(HttpStatusCode.OK, responseContent);
 
         var fakeHttpClient = handler.ToHttpClient();
@@ -65,16 +65,14 @@ public class GetGameDetailUrlUnitTest
             fakeCryptographyUtensil,
             fakeHttpClient);
 
-        var actual = await client
-            .GetGameDetailUrlAsync(
-                apiUrl: apiUrl,
-                secureLogin: secureLogin,
-                secretKey: secretKey,
-                externalPlayerId: externalPlayerId,
-                roundId: roundId,
-                gameId: gameId,
-                language: language)
-            .ConfigureAwait(false);
+        var actual = await client.GetGameDetailUrlAsync(
+            apiUrl: apiUrl,
+            secureLogin: secureLogin,
+            secretKey: secretKey,
+            externalPlayerId: externalPlayerId,
+            roundId: roundId,
+            gameId: gameId,
+            language: language);
 
         Assert.Equal(response.url, actual);
     }

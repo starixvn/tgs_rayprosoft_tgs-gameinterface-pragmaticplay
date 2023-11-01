@@ -49,7 +49,7 @@ public class GetBalanceAsyncUnitTest
         var handler = new MockHttpMessageHandler();
         _ = handler
             .Expect(HttpMethod.Post, "/IntegrationService/v3/http/CasinoGameAPI/balance/current/")
-            .WithContent(await requestcontent.ReadAsStringAsync().ConfigureAwait(false))
+            .WithContent(await requestcontent.ReadAsStringAsync())
             .Respond(HttpStatusCode.OK, responseContent);
 
         var fakeHttpClient = handler.ToHttpClient();
@@ -59,13 +59,11 @@ public class GetBalanceAsyncUnitTest
             fakeCryptographyUtensil,
             fakeHttpClient);
 
-        var actual = await client
-            .GetBalanceAsync(
-                apiUrl: apiUrl,
-                secureLogin: secureLogin,
-                secretKey: secretKey,
-                externalPlayerId: externalPlayerId)
-            .ConfigureAwait(false);
+        var actual = await client.GetBalanceAsync(
+            apiUrl: apiUrl,
+            secureLogin: secureLogin,
+            secretKey: secretKey,
+            externalPlayerId: externalPlayerId);
 
         Assert.NotNull(actual);
         Assert.Equal(response.balance, actual.Balance);
@@ -110,7 +108,7 @@ public class GetBalanceAsyncUnitTest
         var handler = new MockHttpMessageHandler();
         _ = handler
             .Expect(HttpMethod.Post, "/IntegrationService/v3/http/CasinoGameAPI/balance/current/")
-            .WithContent(await requestcontent.ReadAsStringAsync().ConfigureAwait(false))
+            .WithContent(await requestcontent.ReadAsStringAsync())
             .Respond(HttpStatusCode.OK, responseContent);
 
         var fakeHttpClient = handler.ToHttpClient();
@@ -120,13 +118,11 @@ public class GetBalanceAsyncUnitTest
             fakeCryptographyUtensil,
             fakeHttpClient);
 
-        var actual = await client
-            .GetBalanceAsync(
-                apiUrl: apiUrl,
-                secureLogin: secureLogin,
-                secretKey: secretKey,
-                externalPlayerId: externalPlayerId)
-            .ConfigureAwait(false);
+        var actual = await client.GetBalanceAsync(
+            apiUrl: apiUrl,
+            secureLogin: secureLogin,
+            secretKey: secretKey,
+            externalPlayerId: externalPlayerId);
 
         Assert.NotNull(actual);
         Assert.False(actual.IsPlayerExist);

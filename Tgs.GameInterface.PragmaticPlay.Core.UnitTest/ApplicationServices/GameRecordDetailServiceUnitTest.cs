@@ -22,22 +22,18 @@ public class GameRecordDetailServiceUnitTest
         var client = new GameRecordDetailService(
             fakeClient);
 
-        _ = await client
-            .GetAsync(
-                query)
-            .ConfigureAwait(false);
+        _ = await client.GetAsync(query);
 
         _ = await fakeClient
             .Received(1)
             .GetGameDetailUrlAsync(
-               apiUrl: Arg.Is(query.ApiUrl),
-               secureLogin: Arg.Is(query.SecureLogin),
-               secretKey: Arg.Is(query.SecretKey),
-               externalPlayerId: Arg.Is(query.PlayerCode),
-               roundId: Arg.Is(query.ExternalRoundId),
-               gameId: Arg.Is(query.ExternalGameId),
-               language: Arg.Is(query.Language),
-               cancellationToken: Arg.Any<CancellationToken>())
-           .ConfigureAwait(false);
+            apiUrl: Arg.Is(query.ApiUrl),
+            secureLogin: Arg.Is(query.SecureLogin),
+            secretKey: Arg.Is(query.SecretKey),
+            externalPlayerId: Arg.Is(query.PlayerCode),
+            roundId: Arg.Is(query.ExternalRoundId),
+            gameId: Arg.Is(query.ExternalGameId),
+            language: Arg.Is(query.Language),
+            cancellationToken: Arg.Any<CancellationToken>());
     }
 }

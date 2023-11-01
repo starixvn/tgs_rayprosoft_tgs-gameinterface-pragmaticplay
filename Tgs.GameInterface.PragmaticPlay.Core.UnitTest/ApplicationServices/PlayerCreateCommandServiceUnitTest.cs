@@ -33,20 +33,16 @@ public class PlayerCreateCommandServiceUnitTest
         var client = new PlayerCreateCommandService(
             fakeClient);
 
-        await client
-          .ExecuteAsync(
-             command)
-         .ConfigureAwait(false);
+        await client.ExecuteAsync(command);
 
         await fakeClient
             .Received(1)
             .CreatePlayerAsync(
-               apiUrl: Arg.Is(command.ApiUrl),
-               secureLogin: Arg.Is(command.SecureLogin),
-               secretKey: Arg.Is(command.SecretKey),
-               externalPlayerId: Arg.Is(command.PlayerCode),
-               currencyCode: Arg.Is(command.CurrencyCode),
-               cancellationToken: Arg.Any<CancellationToken>())
-            .ConfigureAwait(false);
+            apiUrl: Arg.Is(command.ApiUrl),
+            secureLogin: Arg.Is(command.SecureLogin),
+            secretKey: Arg.Is(command.SecretKey),
+            externalPlayerId: Arg.Is(command.PlayerCode),
+            currencyCode: Arg.Is(command.CurrencyCode),
+            cancellationToken: Arg.Any<CancellationToken>());
     }
 }

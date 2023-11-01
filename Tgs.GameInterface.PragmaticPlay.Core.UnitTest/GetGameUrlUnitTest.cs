@@ -57,7 +57,7 @@ public class GetGameUrlUnitTest
         var handler = new MockHttpMessageHandler();
         _ = handler
             .Expect(HttpMethod.Post, "/IntegrationService/v3/http/CasinoGameAPI/game/start/")
-            .WithContent(await requestcontent.ReadAsStringAsync().ConfigureAwait(false))
+            .WithContent(await requestcontent.ReadAsStringAsync())
             .Respond(HttpStatusCode.OK, responseContent);
 
         var fakeHttpClient = handler.ToHttpClient();
@@ -67,17 +67,15 @@ public class GetGameUrlUnitTest
             fakeCryptographyUtensil,
             fakeHttpClient);
 
-        var actual = await client
-            .GetGameUrlAsync(
-                apiUrl: apiUrl,
-                secureLogin: secureLogin,
-                secretKey: secretKey,
-                externalPlayerId: playerId,
-                externalGameId: externalGameId,
-                language: language,
-                isMobile: isMobile,
-                lobbyUrl: lobbyUrl)
-            .ConfigureAwait(false);
+        var actual = await client.GetGameUrlAsync(
+            apiUrl: apiUrl,
+            secureLogin: secureLogin,
+            secretKey: secretKey,
+            externalPlayerId: playerId,
+            externalGameId: externalGameId,
+            language: language,
+            isMobile: isMobile,
+            lobbyUrl: lobbyUrl);
 
         Assert.NotNull(actual);
         Assert.Equal(response.gameURL, actual.GameUrl);
@@ -131,7 +129,7 @@ public class GetGameUrlUnitTest
         var handler = new MockHttpMessageHandler();
         _ = handler
             .Expect(HttpMethod.Post, "/IntegrationService/v3/http/CasinoGameAPI/game/start/")
-            .WithContent(await requestcontent.ReadAsStringAsync().ConfigureAwait(false))
+            .WithContent(await requestcontent.ReadAsStringAsync())
             .Respond(HttpStatusCode.OK, responseContent);
 
         var fakeHttpClient = handler.ToHttpClient();
@@ -141,17 +139,15 @@ public class GetGameUrlUnitTest
             fakeCryptographyUtensil,
             fakeHttpClient);
 
-        var actual = await client
-            .GetGameUrlAsync(
-                apiUrl: apiUrl,
-                secureLogin: secureLogin,
-                secretKey: secretKey,
-                externalPlayerId: playerId,
-                externalGameId: externalGameId,
-                language: language,
-                isMobile: isMobile,
-                lobbyUrl: lobbyUrl)
-            .ConfigureAwait(false);
+        var actual = await client.GetGameUrlAsync(
+            apiUrl: apiUrl,
+            secureLogin: secureLogin,
+            secretKey: secretKey,
+            externalPlayerId: playerId,
+            externalGameId: externalGameId,
+            language: language,
+            isMobile: isMobile,
+            lobbyUrl: lobbyUrl);
 
         Assert.NotNull(actual);
         Assert.False(actual.IsPlayerExist);
