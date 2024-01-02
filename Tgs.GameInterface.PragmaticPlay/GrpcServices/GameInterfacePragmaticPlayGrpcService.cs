@@ -7,52 +7,23 @@ using GameRecordData = Tgs.GameInterface.PragmaticPlay.Protos.GameRecordData;
 
 namespace Tgs.GameInterface.PragmaticPlay.GrpcServices
 {
-    public class GameInterfacePragmaticPlayGrpcService : GameInterfacePragmaticPlay.GameInterfacePragmaticPlayBase
+    public class GameInterfacePragmaticPlayGrpcService(
+        ILogger<GameInterfacePragmaticPlayGrpcService> logger,
+        IGetService<FundInQuery, FundResult> fundInService,
+        IGetService<FundOutQuery, FundResult> fundOutService,
+        IGetService<FundStatusQuery, bool> fundStatusService,
+        IGetService<GameRecordByLiveQuery, GameRecordResult> gameRecordByLiveService,
+        IGetService<GameRecordBySlotQuery, GameRecordResult> gameRecordBySlotService,
+        IGetService<GameRecordByVirtualSportsQuery, GameRecordResult> gameRecordByVirtualSportsService,
+        IGetService<GameRecordDetailQuery, string> gameRecordDetailService,
+        IGetService<GameUrlQuery, GameUrlResult> gameUrlService,
+        IGetService<PlayerBalanceQuery, PlayerBalanceResult> playerBalanceService,
+        ICommandService<PlayerCreateCommand> playerCreateService,
+        ICommandService<PlayerLogoutCommand> PlayerLogoutService) : GameInterfacePragmaticPlay.GameInterfacePragmaticPlayBase
     {
-        private readonly IGetService<FundInQuery, FundResult> _fundInService;
-        private readonly IGetService<FundOutQuery, FundResult> _fundOutService;
-        private readonly IGetService<FundStatusQuery, bool> _fundStatusService;
-        private readonly IGetService<GameRecordByLiveQuery, GameRecordResult> _gameRecordByLiveService;
-        private readonly IGetService<GameRecordBySlotQuery, GameRecordResult> _gameRecordBySlotService;
-        private readonly IGetService<GameRecordByVirtualSportsQuery, GameRecordResult> _gameRecordByVirtualSportsService;
-        private readonly IGetService<GameRecordDetailQuery, string> _gameRecordDetailService;
-        private readonly IGetService<GameUrlQuery, GameUrlResult> _gameUrlService;
-        private readonly ILogger<GameInterfacePragmaticPlayGrpcService> _logger;
-        private readonly IGetService<PlayerBalanceQuery, PlayerBalanceResult> _playerBalanceService;
-        private readonly ICommandService<PlayerCreateCommand> _playerCreateService;
-        private readonly ICommandService<PlayerLogoutCommand> _playerLogoutService;
-
-        public GameInterfacePragmaticPlayGrpcService(
-            ILogger<GameInterfacePragmaticPlayGrpcService> logger,
-            IGetService<FundInQuery, FundResult> fundInService,
-            IGetService<FundOutQuery, FundResult> fundOutService,
-            IGetService<FundStatusQuery, bool> fundStatusService,
-            IGetService<GameRecordByLiveQuery, GameRecordResult> gameRecordByLiveService,
-            IGetService<GameRecordBySlotQuery, GameRecordResult> gameRecordBySlotService,
-            IGetService<GameRecordByVirtualSportsQuery, GameRecordResult> gameRecordByVirtualSportsService,
-            IGetService<GameRecordDetailQuery, string> gameRecordDetailService,
-            IGetService<GameUrlQuery, GameUrlResult> gameUrlService,
-            IGetService<PlayerBalanceQuery, PlayerBalanceResult> playerBalanceService,
-            ICommandService<PlayerCreateCommand> playerCreateService,
-            ICommandService<PlayerLogoutCommand> PlayerLogoutService)
-        {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _fundInService = fundInService ?? throw new ArgumentNullException(nameof(fundInService));
-            _fundOutService = fundOutService ?? throw new ArgumentNullException(nameof(fundOutService));
-            _fundStatusService = fundStatusService ?? throw new ArgumentNullException(nameof(fundStatusService));
-            _gameRecordByLiveService = gameRecordByLiveService ?? throw new ArgumentNullException(nameof(gameRecordByLiveService));
-            _gameRecordBySlotService = gameRecordBySlotService ?? throw new ArgumentNullException(nameof(gameRecordBySlotService));
-            _gameRecordByVirtualSportsService = gameRecordByVirtualSportsService ?? throw new ArgumentNullException(nameof(gameRecordByVirtualSportsService));
-            _gameRecordDetailService = gameRecordDetailService ?? throw new ArgumentNullException(nameof(gameRecordDetailService));
-            _gameUrlService = gameUrlService ?? throw new ArgumentNullException(nameof(gameUrlService));
-            _playerBalanceService = playerBalanceService ?? throw new ArgumentNullException(nameof(playerBalanceService));
-            _playerCreateService = playerCreateService ?? throw new ArgumentNullException(nameof(playerCreateService));
-            _playerLogoutService = PlayerLogoutService ?? throw new ArgumentNullException(nameof(PlayerLogoutService));
-        }
-
         public override Task<CheckingServiceReply> CheckingService(CheckingServiceRequest request, ServerCallContext context)
         {
-            _logger.LogWarning("LogOn:{logOn} Message: Create a check connection.({machineName})", DateTime.Now.ToString("o"), request.MachineName);
+            logger.LogWarning("LogOn:{logOn} Message: Create a check connection.({machineName})", DateTime.Now.ToString("o"), request.MachineName);
 
             return Task.FromResult(new CheckingServiceReply
             {
@@ -70,7 +41,7 @@ namespace Tgs.GameInterface.PragmaticPlay.GrpcServices
                 OrderId: request.OrderId,
                 Amount: request.Amount);
 
-            var result = await _fundInService
+            var result = await fundInService
                 .GetAsync(
                     query: query,
                     cancellationToken: context.CancellationToken)
@@ -94,7 +65,7 @@ namespace Tgs.GameInterface.PragmaticPlay.GrpcServices
                 OrderId: request.OrderId,
                 Amount: request.Amount);
 
-            var result = await _fundOutService
+            var result = await fundOutService
                 .GetAsync(
                     query: query,
                     cancellationToken: context.CancellationToken)
@@ -116,7 +87,7 @@ namespace Tgs.GameInterface.PragmaticPlay.GrpcServices
                 SecretKey: request.SecretKey,
                 OrderId: request.OrderId);
 
-            var result = await _fundStatusService
+            var result = await fundStatusService
                 .GetAsync(
                     query: query,
                     cancellationToken: context.CancellationToken)
@@ -136,7 +107,7 @@ namespace Tgs.GameInterface.PragmaticPlay.GrpcServices
                 SecretKey: request.SecretKey,
                 StartTime: request.StartTime.ToDateTimeOffset());
 
-            var result = await _gameRecordByLiveService
+            var result = await gameRecordByLiveService
              .GetAsync(
                  query: query,
                  cancellationToken: context.CancellationToken)
@@ -176,7 +147,7 @@ namespace Tgs.GameInterface.PragmaticPlay.GrpcServices
                 SecretKey: request.SecretKey,
                 StartTime: request.StartTime.ToDateTimeOffset());
 
-            var result = await _gameRecordBySlotService
+            var result = await gameRecordBySlotService
              .GetAsync(
                  query: query,
                  cancellationToken: context.CancellationToken)
@@ -216,7 +187,7 @@ namespace Tgs.GameInterface.PragmaticPlay.GrpcServices
                 SecretKey: request.SecretKey,
                 StartTime: request.StartTime.ToDateTimeOffset());
 
-            var result = await _gameRecordByVirtualSportsService
+            var result = await gameRecordByVirtualSportsService
              .GetAsync(
                  query: query,
                  cancellationToken: context.CancellationToken)
@@ -259,7 +230,7 @@ namespace Tgs.GameInterface.PragmaticPlay.GrpcServices
                 ExternalGameId: request.ExternalGameId,
                 Language: request.Language);
 
-            var result = await _gameRecordDetailService
+            var result = await gameRecordDetailService
              .GetAsync(
                  query: query,
                  cancellationToken: context.CancellationToken)
@@ -283,7 +254,7 @@ namespace Tgs.GameInterface.PragmaticPlay.GrpcServices
                 IsMobile: request.IsMobile,
                 LobbyUrl: request.LobbyUrl);
 
-            var result = await _gameUrlService
+            var result = await gameUrlService
              .GetAsync(
                  query: query,
                  cancellationToken: context.CancellationToken)
@@ -304,7 +275,7 @@ namespace Tgs.GameInterface.PragmaticPlay.GrpcServices
                 SecretKey: request.SecretKey,
                 PlayerCode: request.PlayerCode);
 
-            var result = await _playerBalanceService
+            var result = await playerBalanceService
              .GetAsync(
                  query: query,
                  cancellationToken: context.CancellationToken)
@@ -326,7 +297,7 @@ namespace Tgs.GameInterface.PragmaticPlay.GrpcServices
                 PlayerCode: request.PlayerCode,
                 CurrencyCode: request.CurrencyCode);
 
-            await _playerCreateService
+            await playerCreateService
              .ExecuteAsync(
                  command: command,
                  cancellationToken: context.CancellationToken)
@@ -346,7 +317,7 @@ namespace Tgs.GameInterface.PragmaticPlay.GrpcServices
                 SecretKey: request.SecretKey,
                 PlayerCode: request.PlayerCode);
 
-            await _playerLogoutService
+            await PlayerLogoutService
              .ExecuteAsync(
                  command: command,
                  cancellationToken: context.CancellationToken)

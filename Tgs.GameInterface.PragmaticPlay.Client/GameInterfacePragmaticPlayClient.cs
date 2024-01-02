@@ -3,20 +3,12 @@ using Tgs.GameInterface.PragmaticPlay.Protos;
 
 namespace Tgs.GameInterface.PragmaticPlay.Client;
 
-internal class GameInterfacePragmaticPlayClient : IGameInterfacePragmaticPlayClient
+internal class GameInterfacePragmaticPlayClient(
+    GameInterfacePragmaticPlay.GameInterfacePragmaticPlayClient client) : IGameInterfacePragmaticPlayClient
 {
-    private readonly GameInterfacePragmaticPlay.GameInterfacePragmaticPlayClient _client;
-
-    public GameInterfacePragmaticPlayClient(GameInterfacePragmaticPlay.GameInterfacePragmaticPlayClient client)
+    public async ValueTask<string> CheckingServiceAsync(string machineName, CancellationToken cancellationToken = default)
     {
-        _client = client ?? throw new ArgumentNullException(nameof(client));
-    }
-
-    public async ValueTask<string> CheckingServiceAsync(
-        string machineName,
-        CancellationToken cancellationToken = default)
-    {
-        var reply = await _client
+        var reply = await client
             .CheckingServiceAsync(
                 request: new CheckingServiceRequest
                 {
@@ -29,14 +21,8 @@ internal class GameInterfacePragmaticPlayClient : IGameInterfacePragmaticPlayCli
     }
 
     public async ValueTask<FundReply> FundInAsync(
-        Uri apiUrl,
-        string secureLogin,
-        string secretKey,
-        string playerCode,
-        string orderId,
-        decimal amount,
-        CancellationToken cancellationToken = default)
-        => await _client
+        Uri apiUrl, string secureLogin, string secretKey, string playerCode, string orderId, decimal amount, CancellationToken cancellationToken = default)
+        => await client
         .FundInAsync(
             request: new FundRequest
             {
@@ -50,15 +36,8 @@ internal class GameInterfacePragmaticPlayClient : IGameInterfacePragmaticPlayCli
             cancellationToken: cancellationToken)
         .ConfigureAwait(false);
 
-    public async ValueTask<FundReply> FundOutAsync(
-        Uri apiUrl,
-        string secureLogin,
-        string secretKey,
-        string playerCode,
-        string orderId,
-        decimal amount,
-        CancellationToken cancellationToken = default)
-        => await _client
+    public async ValueTask<FundReply> FundOutAsync(Uri apiUrl, string secureLogin, string secretKey, string playerCode, string orderId, decimal amount, CancellationToken cancellationToken = default)
+        => await client
         .FundOutAsync(
             request: new FundRequest
             {
@@ -72,14 +51,9 @@ internal class GameInterfacePragmaticPlayClient : IGameInterfacePragmaticPlayCli
             cancellationToken: cancellationToken)
         .ConfigureAwait(false);
 
-    public async ValueTask<bool> FundStatusAsync(
-        Uri apiUrl,
-        string secureLogin,
-        string secretKey,
-        string orderId,
-        CancellationToken cancellationToken = default)
+    public async ValueTask<bool> FundStatusAsync(Uri apiUrl, string secureLogin, string secretKey, string orderId, CancellationToken cancellationToken = default)
     {
-        var reply = await _client
+        var reply = await client
             .FundStatusAsync(
                 request: new FundStatusRequest
                 {
@@ -94,13 +68,8 @@ internal class GameInterfacePragmaticPlayClient : IGameInterfacePragmaticPlayCli
         return reply.State;
     }
 
-    public async ValueTask<GameRecordReply> GameRecordByLiveAsync(
-        Uri apiUrl,
-        string secureLogin,
-        string secretKey,
-        DateTimeOffset startTime,
-        CancellationToken cancellationToken = default)
-        => await _client
+    public async ValueTask<GameRecordReply> GameRecordByLiveAsync(Uri apiUrl, string secureLogin, string secretKey, DateTimeOffset startTime, CancellationToken cancellationToken = default)
+        => await client
         .GameRecordByLiveAsync(
             request: new GameRecordRequest
             {
@@ -112,13 +81,8 @@ internal class GameInterfacePragmaticPlayClient : IGameInterfacePragmaticPlayCli
             cancellationToken: cancellationToken)
         .ConfigureAwait(false);
 
-    public async ValueTask<GameRecordReply> GameRecordBySlotAsync(
-        Uri apiUrl,
-        string secureLogin,
-        string secretKey,
-        DateTimeOffset startTime,
-        CancellationToken cancellationToken = default)
-        => await _client
+    public async ValueTask<GameRecordReply> GameRecordBySlotAsync(Uri apiUrl, string secureLogin, string secretKey, DateTimeOffset startTime, CancellationToken cancellationToken = default)
+        => await client
         .GameRecordBySlotAsync(
             request: new GameRecordRequest
             {
@@ -130,13 +94,8 @@ internal class GameInterfacePragmaticPlayClient : IGameInterfacePragmaticPlayCli
             cancellationToken: cancellationToken)
         .ConfigureAwait(false);
 
-    public async ValueTask<GameRecordReply> GameRecordByVirtualSportsAsync(
-        Uri apiUrl,
-        string secureLogin,
-        string secretKey,
-        DateTimeOffset startTime,
-        CancellationToken cancellationToken = default)
-        => await _client
+    public async ValueTask<GameRecordReply> GameRecordByVirtualSportsAsync(Uri apiUrl, string secureLogin, string secretKey, DateTimeOffset startTime, CancellationToken cancellationToken = default)
+        => await client
         .GameRecordByVirtualSportsAsync(
             request: new GameRecordRequest
             {
@@ -148,16 +107,8 @@ internal class GameInterfacePragmaticPlayClient : IGameInterfacePragmaticPlayCli
             cancellationToken: cancellationToken)
         .ConfigureAwait(false);
 
-    public async ValueTask<GameRecordDetailReply> GameRecordDetailAsync(
-        Uri apiUrl,
-        string secureLogin,
-        string secretKey,
-        string playerCode,
-        string externalRoundId,
-        string externalGameId,
-        string language,
-        CancellationToken cancellationToken = default)
-        => await _client
+    public async ValueTask<GameRecordDetailReply> GameRecordDetailAsync(Uri apiUrl, string secureLogin, string secretKey, string playerCode, string externalRoundId, string externalGameId, string language, CancellationToken cancellationToken = default)
+        => await client
         .GameRecordDetailAsync(
             request: new GameRecordDetailRequest
             {
@@ -172,17 +123,8 @@ internal class GameInterfacePragmaticPlayClient : IGameInterfacePragmaticPlayCli
             cancellationToken: cancellationToken)
         .ConfigureAwait(false);
 
-    public async ValueTask<GameUrlReply> GameUrlAsync(
-        Uri apiUrl,
-        string secureLogin,
-        string secretKey,
-        string playerCode,
-        string externalGameId,
-        string language,
-        bool isMobile,
-        string? lobbyUrl,
-        CancellationToken cancellationToken = default)
-        => await _client
+    public async ValueTask<GameUrlReply> GameUrlAsync(Uri apiUrl, string secureLogin, string secretKey, string playerCode, string externalGameId, string language, bool isMobile, string? lobbyUrl, CancellationToken cancellationToken = default)
+        => await client
         .GameUrlAsync(
             request: new GameUrlRequest
             {
@@ -198,13 +140,8 @@ internal class GameInterfacePragmaticPlayClient : IGameInterfacePragmaticPlayCli
             cancellationToken: cancellationToken)
         .ConfigureAwait(false);
 
-    public async ValueTask<PlayerBalanceReply> PlayerBalanceAsync(
-        Uri apiUrl,
-        string secureLogin,
-        string secretKey,
-        string playerCode,
-        CancellationToken cancellationToken = default)
-        => await _client
+    public async ValueTask<PlayerBalanceReply> PlayerBalanceAsync(Uri apiUrl, string secureLogin, string secretKey, string playerCode, CancellationToken cancellationToken = default)
+        => await client
         .PlayerBalanceAsync(
             request: new PlayerBalanceRequest
             {
@@ -216,14 +153,8 @@ internal class GameInterfacePragmaticPlayClient : IGameInterfacePragmaticPlayCli
             cancellationToken: cancellationToken)
         .ConfigureAwait(false);
 
-    public async ValueTask PlayerCreateAsync(
-        Uri apiUrl,
-        string secureLogin,
-        string secretKey,
-        string playerCode,
-        string currencyCode,
-        CancellationToken cancellationToken = default)
-        => _ = await _client
+    public async ValueTask PlayerCreateAsync(Uri apiUrl, string secureLogin, string secretKey, string playerCode, string currencyCode, CancellationToken cancellationToken = default)
+        => _ = await client
         .PlayerCreateAsync(
             request: new PlayerCreateRequest
             {
@@ -236,13 +167,8 @@ internal class GameInterfacePragmaticPlayClient : IGameInterfacePragmaticPlayCli
             cancellationToken: cancellationToken)
         .ConfigureAwait(false);
 
-    public async ValueTask PlayerLogoutAsync(
-        Uri apiUrl,
-        string secureLogin,
-        string secretKey,
-        string playerCode,
-        CancellationToken cancellationToken = default)
-        => _ = await _client
+    public async ValueTask PlayerLogoutAsync(Uri apiUrl, string secureLogin, string secretKey, string playerCode, CancellationToken cancellationToken = default)
+        => _ = await client
         .PlayerLogoutAsync(
             request: new PlayerLogoutRequest
             {

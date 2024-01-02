@@ -5,21 +5,14 @@ using Tgs.ServiceUtility;
 
 namespace Tgs.GameInterface.PragmaticPlay.Core.ApplicationServices;
 
-internal class GameRecordByVirtualSportsGetService : IGetService<GameRecordByVirtualSportsQuery, GameRecordResult>
+internal class GameRecordByVirtualSportsGetService(
+    IGameRoundClient client) : IGetService<GameRecordByVirtualSportsQuery, GameRecordResult>
 {
-    private readonly IGameRoundClient _client;
-
-    public GameRecordByVirtualSportsGetService(
-        IGameRoundClient client)
-    {
-        _client = client ?? throw new ArgumentNullException(nameof(client));
-    }
-
     public async ValueTask<GameRecordResult> GetAsync(
         GameRecordByVirtualSportsQuery query,
         CancellationToken cancellationToken = default)
     {
-        var result = await _client
+        var result = await client
             .GetGameRoundByVirtualSportsAsync(
                 apiUrl: query.ApiUrl,
                 secureLogin: query.SecureLogin,

@@ -10,19 +10,10 @@ using Tgs.GameInterface.PragmaticPlay.Core.Models;
 
 namespace Tgs.GameInterface.PragmaticPlay.Core;
 
-internal class GameRoundClient : IGameRoundClient
+internal class GameRoundClient(
+    ILogger<GameRoundClient> logger,
+    HttpClient client) : IGameRoundClient
 {
-    private readonly HttpClient _client;
-    private readonly ILogger<GameRoundClient> _logger;
-
-    public GameRoundClient(
-        ILogger<GameRoundClient> logger,
-        HttpClient client)
-    {
-        _client = client ?? throw new ArgumentNullException(nameof(client));
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-    }
-
     public async ValueTask<GameRoundsResult<GameRoundByLiveData>> GetGameRoundByLiveAsync(
         Uri apiUrl,
         string secureLogin,
@@ -47,7 +38,7 @@ internal class GameRoundClient : IGameRoundClient
 
         if (string.IsNullOrEmpty(data) || !data.StartsWith("timepoint"))
         {
-            _logger.LogWarning("The game provider responded with an error.({data})", data);
+            logger.LogWarning("The game provider responded with an error.({data})", data);
             return new GameRoundsResult<GameRoundByLiveData>(
                 DateTimeOffset.UnixEpoch,
                 Enumerable.Empty<GameRoundByLiveData>());
@@ -98,7 +89,7 @@ internal class GameRoundClient : IGameRoundClient
 
         if (string.IsNullOrEmpty(data) || !data.StartsWith("timepoint"))
         {
-            _logger.LogWarning("The game provider responded with an error.({data})", data);
+            logger.LogWarning("The game provider responded with an error.({data})", data);
             return new GameRoundsResult<GameRoundBySlotData>(
                 DateTimeOffset.UnixEpoch,
                 Enumerable.Empty<GameRoundBySlotData>());
@@ -149,7 +140,7 @@ internal class GameRoundClient : IGameRoundClient
 
         if (string.IsNullOrEmpty(data) || !data.StartsWith("timepoint"))
         {
-            _logger.LogWarning("The game provider responded with an error.({data})", data);
+            logger.LogWarning("The game provider responded with an error.({data})", data);
             return new GameRoundsResult<GameRoundByVirtualSportsData>(
                 DateTimeOffset.UnixEpoch,
                 Enumerable.Empty<GameRoundByVirtualSportsData>());
@@ -184,7 +175,7 @@ internal class GameRoundClient : IGameRoundClient
         logPrefix = $"{nameof(GameApiClient)}.{logPrefix}".ToLower();
 
         var sw = Stopwatch.StartNew();
-        var httpResponseMessage = await _client
+        var httpResponseMessage = await client
         .GetAsync(
                 requestUri: apiUrl,
                 cancellationToken: cancellationToken)
@@ -215,7 +206,7 @@ internal class GameRoundClient : IGameRoundClient
             RecordedOn = DateTimeOffset.UtcNow
         };
 
-        _logger.LogInformation("{apiLogEvent}", JsonSerializer.Serialize(apiLogEvent));
+        logger.LogInformation("{apiLogEvent}", JsonSerializer.Serialize(apiLogEvent));
 
         _ = httpResponseMessage.EnsureSuccessStatusCode();
 

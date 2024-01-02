@@ -9,22 +9,11 @@ using Tgs.GameInterface.PragmaticPlay.Core.Models;
 
 namespace Tgs.GameInterface.PragmaticPlay.Core;
 
-internal class GameApiClient : IGameApiClient
+internal class GameApiClient(
+    ILogger<GameApiClient> logger,
+    ICryptographyUtensil cryptographyUtensil,
+    HttpClient client) : IGameApiClient
 {
-    private readonly HttpClient _client;
-    private readonly ICryptographyUtensil _cryptographyUtensil;
-    private readonly ILogger<GameApiClient> _logger;
-
-    public GameApiClient(
-        ILogger<GameApiClient> logger,
-        ICryptographyUtensil cryptographyUtensil,
-        HttpClient client)
-    {
-        _client = client ?? throw new ArgumentNullException(nameof(client));
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _cryptographyUtensil = cryptographyUtensil ?? throw new ArgumentNullException(nameof(cryptographyUtensil));
-    }
-
     public async ValueTask CreatePlayerAsync(
         Uri apiUrl,
         string secureLogin,
@@ -40,7 +29,7 @@ internal class GameApiClient : IGameApiClient
             ["currency"] = currencyCode
         };
 
-        var hash = _cryptographyUtensil.GenerateHash(parameters, secretKey);
+        var hash = cryptographyUtensil.GenerateHash(parameters, secretKey);
         parameters["hash"] = hash;
 
         var jsonNode = await PostAsync(
@@ -77,7 +66,7 @@ internal class GameApiClient : IGameApiClient
             ["amount"] = (amount).ToString()
         };
 
-        var hash = _cryptographyUtensil.GenerateHash(parameters, secretKey);
+        var hash = cryptographyUtensil.GenerateHash(parameters, secretKey);
         parameters["hash"] = hash;
 
         var jsonNode = await PostAsync(
@@ -112,7 +101,7 @@ internal class GameApiClient : IGameApiClient
             ["externalPlayerId"] = externalPlayerId,
         };
 
-        var hash = _cryptographyUtensil.GenerateHash(parameters, secretKey);
+        var hash = cryptographyUtensil.GenerateHash(parameters, secretKey);
         parameters["hash"] = hash;
 
         var jsonNode = await PostAsync(
@@ -154,7 +143,7 @@ internal class GameApiClient : IGameApiClient
             ["options"] = "GetFrbDetails,GetLines,GetDataTypes,GetFeatures"
         };
 
-        var hash = _cryptographyUtensil.GenerateHash(parameters, secretKey);
+        var hash = cryptographyUtensil.GenerateHash(parameters, secretKey);
         parameters["hash"] = hash;
 
         var jsonNode = await PostAsync(
@@ -175,7 +164,7 @@ internal class GameApiClient : IGameApiClient
 
         var gameList = jsonNode["gameList"]!.AsArray();
 
-        if (!gameList.Any())
+        if (gameList.Count == 0)
         {
             yield break;
         }
@@ -220,7 +209,7 @@ internal class GameApiClient : IGameApiClient
             ["language"] = language
         };
 
-        var hash = _cryptographyUtensil.GenerateHash(parameters, secretKey);
+        var hash = cryptographyUtensil.GenerateHash(parameters, secretKey);
         parameters["hash"] = hash;
 
         var jsonNode = await PostAsync(
@@ -262,7 +251,7 @@ internal class GameApiClient : IGameApiClient
         if (!string.IsNullOrWhiteSpace(lobbyUrl))
             parameters["lobbyURL"] = lobbyUrl;
 
-        var hash = _cryptographyUtensil.GenerateHash(parameters, secretKey);
+        var hash = cryptographyUtensil.GenerateHash(parameters, secretKey);
         parameters["hash"] = hash;
 
         var jsonNode = await PostAsync(
@@ -309,7 +298,7 @@ internal class GameApiClient : IGameApiClient
             ["externalPlayerId"] = externalPlayerId
         };
 
-        var hash = _cryptographyUtensil.GenerateHash(parameters, secretKey);
+        var hash = cryptographyUtensil.GenerateHash(parameters, secretKey);
         parameters["hash"] = hash;
 
         _ = await PostAsync(
@@ -334,7 +323,7 @@ internal class GameApiClient : IGameApiClient
             ["externalTransactionId"] = externalTransactionId
         };
 
-        var hash = _cryptographyUtensil.GenerateHash(parameters, secretKey);
+        var hash = cryptographyUtensil.GenerateHash(parameters, secretKey);
         parameters["hash"] = hash;
 
         var jsonNode = await PostAsync(
@@ -371,7 +360,7 @@ internal class GameApiClient : IGameApiClient
             ["amount"] = (-amount).ToString()
         };
 
-        var hash = _cryptographyUtensil.GenerateHash(parameters, secretKey);
+        var hash = cryptographyUtensil.GenerateHash(parameters, secretKey);
         parameters["hash"] = hash;
 
         var jsonNode = await PostAsync(
@@ -406,7 +395,7 @@ internal class GameApiClient : IGameApiClient
         var sw = Stopwatch.StartNew();
 
         var content = new FormUrlEncodedContent(parameters);
-        var httpResponseMessage = await _client
+        var httpResponseMessage = await client
             .PostAsync(
                 requestUri: url,
                 content: content,
@@ -438,7 +427,7 @@ internal class GameApiClient : IGameApiClient
             RecordedOn = DateTimeOffset.UtcNow
         };
 
-        _logger.LogInformation("{apiLogEvent}", JsonSerializer.Serialize(apiLogEvent));
+        logger.LogInformation("{apiLogEvent}", JsonSerializer.Serialize(apiLogEvent));
 
         _ = httpResponseMessage.EnsureSuccessStatusCode();
 

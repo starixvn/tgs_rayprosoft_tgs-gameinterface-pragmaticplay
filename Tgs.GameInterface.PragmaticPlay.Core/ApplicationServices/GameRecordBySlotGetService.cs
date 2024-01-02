@@ -5,21 +5,15 @@ using Tgs.ServiceUtility;
 
 namespace Tgs.GameInterface.PragmaticPlay.Core.ApplicationServices;
 
-internal class GameRecordBySlotGetService : IGetService<GameRecordBySlotQuery, GameRecordResult>
+internal class GameRecordBySlotGetService(
+    IGameRoundClient client) : IGetService<GameRecordBySlotQuery, GameRecordResult>
 {
-    private readonly IGameRoundClient _client;
-
-    public GameRecordBySlotGetService(
-        IGameRoundClient client)
-    {
-        _client = client ?? throw new ArgumentNullException(nameof(client));
-    }
 
     public async ValueTask<GameRecordResult> GetAsync(
         GameRecordBySlotQuery query,
         CancellationToken cancellationToken = default)
     {
-        var result = await _client
+        var result = await client
             .GetGameRoundBySlotAsync(
                 apiUrl: query.ApiUrl,
                 secureLogin: query.SecureLogin,

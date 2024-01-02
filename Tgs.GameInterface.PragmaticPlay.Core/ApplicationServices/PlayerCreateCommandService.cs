@@ -2,17 +2,10 @@
 
 namespace Tgs.GameInterface.PragmaticPlay.Core.ApplicationServices;
 
-internal class PlayerCreateCommandService : ICommandService<PlayerCreateCommand>
+internal class PlayerCreateCommandService(IGameApiClient client) : ICommandService<PlayerCreateCommand>
 {
-    private readonly IGameApiClient _client;
-
-    public PlayerCreateCommandService(IGameApiClient client)
-    {
-        _client = client ?? throw new ArgumentNullException(nameof(client));
-    }
-
     public ValueTask ExecuteAsync(PlayerCreateCommand command, CancellationToken cancellationToken = default)
-        => _client
+        => client
         .CreatePlayerAsync(
             apiUrl: command.ApiUrl,
             secureLogin: command.SecureLogin,

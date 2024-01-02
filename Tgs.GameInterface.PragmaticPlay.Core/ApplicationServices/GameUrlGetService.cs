@@ -2,18 +2,11 @@
 
 namespace Tgs.GameInterface.PragmaticPlay.Core.ApplicationServices;
 
-internal class GameUrlGetService : IGetService<GameUrlQuery, GameUrlResult>
+internal class GameUrlGetService(IGameApiClient client) : IGetService<GameUrlQuery, GameUrlResult>
 {
-    private readonly IGameApiClient _client;
-
-    public GameUrlGetService(IGameApiClient client)
-    {
-        _client = client ?? throw new ArgumentNullException(nameof(client));
-    }
-
     public async ValueTask<GameUrlResult> GetAsync(GameUrlQuery query, CancellationToken cancellationToken = default)
     {
-        var result = await _client
+        var result = await client
              .GetGameUrlAsync(
                  apiUrl: query.ApiUrl,
                  secureLogin: query.SecureLogin,

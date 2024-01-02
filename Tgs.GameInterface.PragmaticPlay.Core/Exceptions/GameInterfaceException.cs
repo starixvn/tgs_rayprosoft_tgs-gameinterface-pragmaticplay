@@ -1,11 +1,7 @@
 ﻿namespace Tgs.GameInterface.PragmaticPlay.Core.Exceptions;
 
-public class GameInterfaceException : Exception
+public class GameInterfaceException(string error, string description, string json) : Exception($"{GetMessage(error, description)}({json})")
 {
-    public GameInterfaceException(string error, string description, string json) : base($"{GetMessage(error, description)}({json})")
-    {
-    }
-
     public static string GetMessage(string error, string description)
         => error switch
         {
