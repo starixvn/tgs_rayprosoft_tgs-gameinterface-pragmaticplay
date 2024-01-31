@@ -20,7 +20,7 @@ public class GameRecordBySlotGetServiceUnitTest
         var result = new GameRoundsResult<GameRoundBySlotData>(
              NextTime: DateTimeOffset.FromUnixTimeMilliseconds(1682055513073),
              GameRoundDatas: new GameRoundBySlotData[]{
-                 new GameRoundBySlotData()  {
+                 new()  {
                      PlayerID=1652690393452,
                      ExtPlayerID="4ucmqplxb029",
                      GameID="vswaysmonkey",
@@ -69,7 +69,7 @@ public class GameRecordBySlotGetServiceUnitTest
         var result = new GameRoundsResult<GameRoundBySlotData>(
              NextTime: DateTimeOffset.FromUnixTimeMilliseconds(1682047053189),
              GameRoundDatas: new GameRoundBySlotData[]{
-                 new GameRoundBySlotData()  {
+                 new()  {
                      PlayerID=2953411,
                      ExtPlayerID="4ucmqplxb029",
                      GameID="vs243lionsgold",
@@ -125,7 +125,7 @@ public class GameRecordBySlotGetServiceUnitTest
         var result = new GameRoundsResult<GameRoundBySlotData>(
              NextTime: DateTimeOffset.FromUnixTimeMilliseconds(1682055513073),
              GameRoundDatas: new GameRoundBySlotData[]{
-                 new GameRoundBySlotData()  {
+                 new()  {
                      PlayerID=2953411,
                      ExtPlayerID="4ucmqplxb029",
                      GameID="vswaysmonkey",

@@ -20,7 +20,7 @@ public class GameRecordByLiveGetServiceUnitTest
         var result = new GameRoundsResult<GameRoundByLiveData>(
              NextTime: DateTimeOffset.FromUnixTimeMilliseconds(1682047923236),
              GameRoundDatas: new GameRoundByLiveData[]{
-                 new GameRoundByLiveData()  {
+                 new()  {
                      PlayerID=1652690393452,
                      ExtPlayerID="4ucmqplxb029",
                      GameID="439",
@@ -77,7 +77,7 @@ public class GameRecordByLiveGetServiceUnitTest
         var result = new GameRoundsResult<GameRoundByLiveData>(
              NextTime: DateTimeOffset.FromUnixTimeMilliseconds(1682047923236),
              GameRoundDatas: new GameRoundByLiveData[]{
-                 new GameRoundByLiveData()  {
+                 new()  {
                      PlayerID=1652690393452,
                      ExtPlayerID="4ucmqplxb029",
                      GameID="439",

@@ -134,7 +134,7 @@ internal class GameApiClient(
     public async IAsyncEnumerable<GetCasinoGamesResult> GetCasinoGamesAsync(
         Uri apiUrl,
         string secureLogin,
-         string secretKey,
+        string secretKey,
         [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         var parameters = new Dictionary<string, string>
@@ -191,7 +191,7 @@ internal class GameApiClient(
     }
 
     public async ValueTask<string> GetGameDetailUrlAsync(
-            Uri apiUrl,
+        Uri apiUrl,
         string secureLogin,
         string secretKey,
         string externalPlayerId,
@@ -283,6 +283,63 @@ internal class GameApiClient(
         return new GameUrlResult(
             IsPlayerExist: true,
             GameUrl: gameUrl);
+    }
+
+    public async IAsyncEnumerable<GetLobbyGamesResult> GetLobbyGamesAsync(Uri apiUrl, string secureLogin, string secretKey, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    {
+        var parameters = new Dictionary<string, string>
+        {
+            ["secureLogin"] = secureLogin,
+            ["categories"] = "all"
+        };
+
+        var hash = cryptographyUtensil.GenerateHash(parameters, secretKey);
+        parameters["hash"] = hash;
+
+        var jsonNode = await PostAsync(
+                apiUrl: apiUrl,
+                path: "/IntegrationService/v3/http/CasinoGameAPI/getLobbyGames/",
+                parameters: parameters,
+                logPrefix: " GetLobbyGames",
+                cancellationToken: cancellationToken)
+            .ConfigureAwait(false);
+
+        if (jsonNode["error"]!.GetValue<string>() != "0")
+        {
+            throw new GameInterfaceException(
+                error: jsonNode["error"]!.GetValue<string>(),
+                description: jsonNode["description"]?.GetValue<string>() ?? string.Empty,
+                json: jsonNode.ToJsonString());
+        }
+
+        var gameList = jsonNode["games"]!["all"]!.AsArray();
+
+        if (gameList.Count == 0)
+        {
+            yield break;
+        }
+
+        foreach (var game in gameList)
+        {
+            if (game is null)
+            {
+                continue;
+            }
+            yield return new GetLobbyGamesResult
+            {
+                GameID = game["gameID"]!.GetValue<string>(),
+                GameIdNumeric = game["gameIdNumeric"]!.GetValue<int>(),
+                GameName = game["gameName"]!.GetValue<string>(),
+                GameTypeID = game["gameTypeID"]!.GetValue<string>(),
+                Jurisdictions = String.Join(",", JsonSerializer.Deserialize<IEnumerable<string>>(game["jurisdictions"]) ?? Enumerable.Empty<string>()),
+                Lines = game["gameIdNumeric"]!.GetValue<int>(),
+                FrbAvailable = game["frbAvailable"]!.GetValue<bool>(),
+                VariableFrbAvailable = game["variableFrbAvailable"]!.GetValue<bool>(),
+                Features = String.Join(",", JsonSerializer.Deserialize<IEnumerable<string>>(game["features"]) ?? Enumerable.Empty<string>()),
+                DemoGameAvailable = game["demoGameAvailable"]!.GetValue<bool>(),
+                SortingOrder = game["sortingOrder"]!.GetValue<int>(),
+            };
+        }
     }
 
     public async ValueTask LogoutAsync(

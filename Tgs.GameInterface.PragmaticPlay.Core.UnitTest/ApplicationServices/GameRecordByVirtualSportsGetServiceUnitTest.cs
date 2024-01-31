@@ -20,7 +20,7 @@ public class GameRecordByVirtualSportsGetServiceUnitTest
         var result = new GameRoundsResult<GameRoundByVirtualSportsData>(
              NextTime: DateTimeOffset.FromUnixTimeMilliseconds(1682049681569),
              GameRoundDatas: new GameRoundByVirtualSportsData[]{
-                 new GameRoundByVirtualSportsData()  {
+                 new()  {
                      PlayerID=2953411,
                      ExtPlayerID="4ucmqplxb029",
                      GameID="vpdr7",
@@ -76,7 +76,7 @@ public class GameRecordByVirtualSportsGetServiceUnitTest
         var result = new GameRoundsResult<GameRoundByVirtualSportsData>(
              NextTime: DateTimeOffset.FromUnixTimeMilliseconds(1682049681569),
              GameRoundDatas: new GameRoundByVirtualSportsData[]{
-                 new GameRoundByVirtualSportsData()  {
+                 new()  {
                      PlayerID=2953411,
                      ExtPlayerID="4ucmqplxb029",
                      GameID="vpdr7",

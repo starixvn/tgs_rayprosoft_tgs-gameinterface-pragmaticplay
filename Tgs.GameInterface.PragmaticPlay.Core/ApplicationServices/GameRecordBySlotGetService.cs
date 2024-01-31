@@ -8,7 +8,6 @@ namespace Tgs.GameInterface.PragmaticPlay.Core.ApplicationServices;
 internal class GameRecordBySlotGetService(
     IGameRoundClient client) : IGetService<GameRecordBySlotQuery, GameRecordResult>
 {
-
     public async ValueTask<GameRecordResult> GetAsync(
         GameRecordBySlotQuery query,
         CancellationToken cancellationToken = default)

@@ -61,13 +61,11 @@ public class CreatePlayerUnitTest
             fakeCryptographyUtensil,
             fakeHttpClient);
 
-        await client
-           .CreatePlayerAsync(
-               apiUrl: apiUrl,
-               secureLogin: secureLogin,
-               secretKey: secretKey,
-               externalPlayerId: externalPlayerId,
-               currencyCode: currencyCode)
-           .ConfigureAwait(false);
+        await client.CreatePlayerAsync(
+            apiUrl: apiUrl,
+            secureLogin: secureLogin,
+            secretKey: secretKey,
+            externalPlayerId: externalPlayerId,
+            currencyCode: currencyCode);
     }
 }

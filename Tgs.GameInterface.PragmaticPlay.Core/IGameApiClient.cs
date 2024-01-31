@@ -35,7 +35,7 @@ public interface IGameApiClient
         CancellationToken cancellationToken = default);
 
     ValueTask<string> GetGameDetailUrlAsync(
-            Uri apiUrl,
+        Uri apiUrl,
         string secureLogin,
         string secretKey,
         string externalPlayerId,
@@ -54,6 +54,12 @@ public interface IGameApiClient
         bool isMobile,
         string? lobbyUrl,
         CancellationToken cancellationToken = default);
+
+    IAsyncEnumerable<GetLobbyGamesResult> GetLobbyGamesAsync(
+              Uri apiUrl,
+      string secureLogin,
+      string secretKey,
+      CancellationToken cancellationToken = default);
 
     ValueTask LogoutAsync(
         Uri apiUrl,

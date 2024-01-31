@@ -22,7 +22,7 @@ namespace Tgs.GameInterface.PragmaticPlay.Controllers
         ///         {
         ///             "apiUrl": "https://api.prerelease-env.biz/",
         ///             "secureLogin": "tgs_tgstfw",
-        ///             "secretKey": "testKey",
+        ///             "secretKey": "087a9b53033942A6",
         ///             "playerCode": "4ucmqplxb029",
         ///             "orderId":"696FDA6D74E14D6998CDDA11E68B2C3C",
         ///             "amount": 1
@@ -66,7 +66,7 @@ namespace Tgs.GameInterface.PragmaticPlay.Controllers
         ///         {
         ///             "apiUrl": "https://api.prerelease-env.biz/",
         ///             "secureLogin": "tgs_tgstfw",
-        ///             "secretKey": "testKey",
+        ///             "secretKey": "087a9b53033942A6",
         ///             "playerCode": "4ucmqplxb029",
         ///             "orderId":"5331E638E11245C3B321170FEBE378E8",
         ///             "amount": 1
@@ -110,7 +110,7 @@ namespace Tgs.GameInterface.PragmaticPlay.Controllers
         ///         {
         ///             "apiUrl": "https://api.prerelease-env.biz/",
         ///             "secureLogin": "tgs_tgstfw",
-        ///             "secretKey": "testKey",
+        ///             "secretKey": "087a9b53033942A6",
         ///             "playerCode": "4ucmqplxb029",
         ///             "orderId":"5331E638E11245C3B321170FEBE378E8"
         ///         }
@@ -145,7 +145,7 @@ namespace Tgs.GameInterface.PragmaticPlay.Controllers
         ///         {
         ///             "apiUrl": "https://api.prerelease-env.biz/",
         ///             "secureLogin": "tgs_tgstfw",
-        ///             "secretKey": "testKey",
+        ///             "secretKey": "087a9b53033942A6",
         ///             "startTime": "2023-04-21T11:20:00+08:00"
         ///         }
         /// </remarks>
@@ -196,7 +196,7 @@ namespace Tgs.GameInterface.PragmaticPlay.Controllers
         ///         {
         ///             "apiUrl": "https://api.prerelease-env.biz/",
         ///             "secureLogin": "tgs_tgstfw",
-        ///             "secretKey": "testKey",
+        ///             "secretKey": "087a9b53033942A6",
         ///             "startTime": "2023-04-21T13:30:00+08:00"
         ///         }
         /// </remarks>
@@ -247,7 +247,7 @@ namespace Tgs.GameInterface.PragmaticPlay.Controllers
         ///         {
         ///             "apiUrl": "https://api.prerelease-env.biz/",
         ///             "secureLogin": "tgs_tgstfw",
-        ///             "secretKey": "testKey",
+        ///             "secretKey": "087a9b53033942A6",
         ///             "startTime": "2023-04-21T11:55:00+08:00"
         ///         }
         /// </remarks>
@@ -298,7 +298,7 @@ namespace Tgs.GameInterface.PragmaticPlay.Controllers
         ///         {
         ///             "apiUrl": "https://api.prerelease-env.biz/",
         ///             "secureLogin": "tgs_tgstfw",
-        ///             "secretKey": "testKey",
+        ///             "secretKey": "087a9b53033942A6",
         ///             "playerCode": "4ucmqplxb029",
         ///             "externalRoundId": "2920181390",
         ///             "externalGameId": "vswaysmonkey",
@@ -339,7 +339,7 @@ namespace Tgs.GameInterface.PragmaticPlay.Controllers
         ///         {
         ///             "apiUrl": "https://api.prerelease-env.biz/",
         ///             "secureLogin": "tgs_tgstfw",
-        ///             "secretKey": "testKey",
+        ///             "secretKey": "087a9b53033942A6",
         ///             "playerCode": "4ucmqplxb029",
         ///             "externalGameId":"vs20olympgate",
         ///             "language": "zh",
@@ -387,7 +387,7 @@ namespace Tgs.GameInterface.PragmaticPlay.Controllers
         ///         {
         ///             "apiUrl": "https://api.prerelease-env.biz/",
         ///             "secureLogin": "tgs_tgstfw",
-        ///             "secretKey": "testKey",
+        ///             "secretKey": "087a9b53033942A6",
         ///             "playerCode": "4ucmqplxb029"
         ///         }
         /// </remarks>
@@ -427,7 +427,7 @@ namespace Tgs.GameInterface.PragmaticPlay.Controllers
         ///         {
         ///             "apiUrl": "https://api.prerelease-env.biz/",
         ///             "secureLogin": "tgs_tgstfw",
-        ///             "secretKey": "testKey",
+        ///             "secretKey": "087a9b53033942A6",
         ///             "playerCode": "4ucmqplxb029",
         ///             "currencyCode": "CNY"
         ///         }
@@ -462,7 +462,7 @@ namespace Tgs.GameInterface.PragmaticPlay.Controllers
         ///         {
         ///             "apiUrl": "https://api.prerelease-env.biz/",
         ///             "secureLogin": "tgs_tgstfw",
-        ///             "secretKey": "testKey",
+        ///             "secretKey": "087a9b53033942A6",
         ///             "playerCode": "4ucmqplxb029"
         ///         }
         /// </remarks>
