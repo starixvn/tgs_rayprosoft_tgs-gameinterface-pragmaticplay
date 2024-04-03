@@ -24,6 +24,14 @@ internal class GameRecordByVirtualSportsGetService(
         var gamerounds = result.GameRoundDatas
             ?? Enumerable.Empty<GameRoundByVirtualSportsData>();
 
+        /*
+         * Type 游戏类型：
+         *  R -游戏回合
+         *  F –免费旋转在游戏回合中触发
+         *  PP客服解釋:
+         *      免费旋转进行玩时候win部分会算主单
+         *      免费旋转的bet和win值是0.00
+         */
         return !(result.GameRoundDatas ?? Enumerable.Empty<GameRoundByVirtualSportsData>()).Any()
             ? new GameRecordResult(
                 NextTime: result.NextTime,
