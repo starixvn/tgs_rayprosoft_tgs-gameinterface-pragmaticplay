@@ -4,6 +4,6 @@ namespace Tgs.GameInterface.PragmaticPlay;
 
 public class DiagnosticsInterceptorOptions
 {
-    public ActivitySource InterceptorActivitySource { get; set; } =
-        new ActivitySource($"Tgs.GameInterface.PragmaticPlay.DiagnosticsInterceptor");
+	public ActivitySource InterceptorActivitySource { get; set; } =
+		new ActivitySource($"Tgs.GameInterface.PragmaticPlay.DiagnosticsInterceptor");
 }

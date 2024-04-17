@@ -2,5 +2,5 @@
 
 public interface ICryptographyUtensil
 {
-    public string GenerateHash(IDictionary<string, string> parameters, string secretKey);
+	public string GenerateHash(IDictionary<string, string> parameters, string secretKey);
 }

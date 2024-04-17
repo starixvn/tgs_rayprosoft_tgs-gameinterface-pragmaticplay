@@ -1,6 +1,6 @@
 ﻿namespace Tgs.GameInterface.PragmaticPlay.Core.Models;
 
 public record WithdrawalResult(
-    long TransactionId,
-    decimal Balance,
-    string Res);
+	long TransactionId,
+	decimal Balance,
+	string Res);
