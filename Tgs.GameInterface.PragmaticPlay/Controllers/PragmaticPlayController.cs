@@ -326,6 +326,40 @@ public class PragmaticPlayController : ControllerBase
 	}
 
 	/// <summary>
+	/// Games the record cancel round asynchronous.
+	/// </summary>
+	/// <param name="service">The service.</param>
+	/// <param name="source">The source.</param>
+	/// <returns></returns>
+	/// <remarks>
+	/// <b>Example</b><br />
+	///
+	///     Post
+	///
+	///         {
+	///             "apiUrl": "https://api.prerelease-env.biz/",
+	///             "secureLogin": "tgs_tgstfw",
+	///             "secretKey": "087a9b53033942A6",
+	///             "playerCode": "4ucmqplxb029",
+	///             "externalRoundId": "2920181390",
+	///             "externalGameId": "vswaysmonkey"
+	///         }
+	/// </remarks>
+	[HttpPost("game/record/cancel")]
+	public ValueTask GameRecordCancelRoundAsync(
+		[FromServices] ICommandService<GameRecordCancelRoundCommand> service,
+		GameRecordCancelRoundViewModel source)
+		=> service.ExecuteAsync(
+		command: new GameRecordCancelRoundCommand(
+			ApiUrl: source.ApiUrl,
+			SecureLogin: source.SecureLogin,
+			SecretKey: source.SecretKey,
+			PlayerCode: source.PlayerCode,
+			ExternalRoundId: source.ExternalRoundId,
+			ExternalGameId: source.ExternalGameId),
+		cancellationToken: HttpContext.RequestAborted);
+
+	/// <summary>
 	/// Games the URL asynchronous.
 	/// </summary>
 	/// <param name="service">The service.</param>
