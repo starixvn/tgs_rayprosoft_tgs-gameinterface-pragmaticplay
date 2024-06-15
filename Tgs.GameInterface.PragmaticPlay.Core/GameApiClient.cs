@@ -14,13 +14,37 @@ internal class GameApiClient(
 	ICryptographyUtensil cryptographyUtensil,
 	HttpClient client) : IGameApiClient
 {
-	public async ValueTask CreatePlayerAsync(
-		Uri apiUrl,
-		string secureLogin,
-		string secretKey,
-		string externalPlayerId,
-		string currencyCode,
-		CancellationToken cancellationToken = default)
+	public async ValueTask CancelRoundAsync(Uri apiUrl, string secureLogin, string secretKey, string externalPlayerId, string gameId, string roundId, CancellationToken cancellationToken = default)
+	{
+		var parameters = new Dictionary<string, string>
+		{
+			["secureLogin"] = secureLogin,
+			["playerId"] = externalPlayerId,
+			["gameId"] = gameId,
+			["roundId"] = roundId
+		};
+
+		var hash = cryptographyUtensil.GenerateHash(parameters, secretKey);
+		parameters["hash"] = hash;
+
+		var jsonNode = await PostAsync(
+				apiUrl: apiUrl,
+				path: "/IntegrationService/v3/http/CasinoGameAPI/cancelRound/",
+				parameters: parameters,
+				logPrefix: nameof(CancelRoundAsync),
+				cancellationToken: cancellationToken)
+			.ConfigureAwait(false);
+
+		if (!jsonNode["error"]!.GetValue<string>().Equals("0", StringComparison.OrdinalIgnoreCase))
+		{
+			throw new GameInterfaceException(
+				error: jsonNode["error"]!.GetValue<string>(),
+				description: jsonNode["description"]?.GetValue<string>() ?? string.Empty,
+				json: jsonNode.ToJsonString());
+		}
+	}
+
+	public async ValueTask CreatePlayerAsync(Uri apiUrl, string secureLogin, string secretKey, string externalPlayerId, string currencyCode, CancellationToken cancellationToken = default)
 	{
 		var parameters = new Dictionary<string, string>
 		{
@@ -36,7 +60,7 @@ internal class GameApiClient(
 				apiUrl: apiUrl,
 				path: "/IntegrationService/v3/http/CasinoGameAPI/player/account/create/",
 				parameters: parameters,
-				logPrefix: "CreatePlayer",
+				logPrefix: nameof(CreatePlayerAsync),
 				cancellationToken: cancellationToken)
 			.ConfigureAwait(false);
 
@@ -49,14 +73,7 @@ internal class GameApiClient(
 		}
 	}
 
-	public async ValueTask<DepositResult> DepositAsync(
-		Uri apiUrl,
-		string secureLogin,
-		string secretKey,
-		string externalPlayerId,
-		string externalTransactionId,
-		decimal amount,
-		CancellationToken cancellationToken = default)
+	public async ValueTask<DepositResult> DepositAsync(Uri apiUrl, string secureLogin, string secretKey, string externalPlayerId, string externalTransactionId, decimal amount, CancellationToken cancellationToken = default)
 	{
 		var parameters = new Dictionary<string, string>
 		{
@@ -73,7 +90,7 @@ internal class GameApiClient(
 				apiUrl: apiUrl,
 				path: "/IntegrationService/v3/http/CasinoGameAPI/balance/transfer/",
 				parameters: parameters,
-				logPrefix: " Deposit",
+				logPrefix: nameof(DepositAsync),
 				cancellationToken: cancellationToken)
 			.ConfigureAwait(false);
 
@@ -88,12 +105,7 @@ internal class GameApiClient(
 			Res: jsonNode.ToJsonString());
 	}
 
-	public async ValueTask<BalanceResult> GetBalanceAsync(
-		Uri apiUrl,
-		string secureLogin,
-		string secretKey,
-		string externalPlayerId,
-		CancellationToken cancellationToken = default)
+	public async ValueTask<BalanceResult> GetBalanceAsync(Uri apiUrl, string secureLogin, string secretKey, string externalPlayerId, CancellationToken cancellationToken = default)
 	{
 		var parameters = new Dictionary<string, string>
 		{
@@ -108,7 +120,7 @@ internal class GameApiClient(
 				apiUrl: apiUrl,
 				path: "/IntegrationService/v3/http/CasinoGameAPI/balance/current/",
 				parameters: parameters,
-				logPrefix: "GetBalance",
+				logPrefix: nameof(GetBalanceAsync),
 				cancellationToken: cancellationToken)
 			.ConfigureAwait(false);
 
@@ -131,11 +143,7 @@ internal class GameApiClient(
 			Balance: balance);
 	}
 
-	public async IAsyncEnumerable<GetCasinoGamesResult> GetCasinoGamesAsync(
-		Uri apiUrl,
-		string secureLogin,
-		string secretKey,
-		[EnumeratorCancellation] CancellationToken cancellationToken = default)
+	public async IAsyncEnumerable<GetCasinoGamesResult> GetCasinoGamesAsync(Uri apiUrl, string secureLogin, string secretKey, [EnumeratorCancellation] CancellationToken cancellationToken = default)
 	{
 		var parameters = new Dictionary<string, string>
 		{
@@ -150,7 +158,7 @@ internal class GameApiClient(
 				apiUrl: apiUrl,
 				path: "/IntegrationService/v3/http/CasinoGameAPI/getCasinoGames/",
 				parameters: parameters,
-				logPrefix: " GetCasinoGames",
+				logPrefix: nameof(GetCasinoGamesAsync),
 				cancellationToken: cancellationToken)
 			.ConfigureAwait(false);
 
@@ -191,15 +199,7 @@ internal class GameApiClient(
 		}
 	}
 
-	public async ValueTask<string> GetGameDetailUrlAsync(
-		Uri apiUrl,
-		string secureLogin,
-		string secretKey,
-		string externalPlayerId,
-		string roundId,
-		string gameId,
-		string language,
-		CancellationToken cancellationToken = default)
+	public async ValueTask<string> GetGameDetailUrlAsync(Uri apiUrl, string secureLogin, string secretKey, string externalPlayerId, string roundId, string gameId, string language, CancellationToken cancellationToken = default)
 	{
 		var parameters = new Dictionary<string, string>
 		{
@@ -217,7 +217,7 @@ internal class GameApiClient(
 				apiUrl: apiUrl,
 				path: "/IntegrationService/v3/http/HistoryAPI/OpenHistoryExtended/",
 				parameters: parameters,
-				logPrefix: "OpenHistoryExtended",
+				logPrefix: nameof(GetGameDetailUrlAsync),
 				cancellationToken: cancellationToken)
 			.ConfigureAwait(false);
 
@@ -229,16 +229,7 @@ internal class GameApiClient(
 			: jsonNode["url"]!.GetValue<string>();
 	}
 
-	public async ValueTask<GameUrlResult> GetGameUrlAsync(
-		Uri apiUrl,
-		string secureLogin,
-		string secretKey,
-		string externalPlayerId,
-		string externalGameId,
-		string language,
-		bool isMobile,
-		string? lobbyUrl,
-		CancellationToken cancellationToken = default)
+	public async ValueTask<GameUrlResult> GetGameUrlAsync(Uri apiUrl, string secureLogin, string secretKey, string externalPlayerId, string externalGameId, string language, bool isMobile, string? lobbyUrl, CancellationToken cancellationToken = default)
 	{
 		var parameters = new Dictionary<string, string>
 		{
@@ -259,7 +250,7 @@ internal class GameApiClient(
 				apiUrl: apiUrl,
 				path: "/IntegrationService/v3/http/CasinoGameAPI/game/start/",
 				parameters: parameters,
-				logPrefix: "StartGame",
+				logPrefix: nameof(GetGameUrlAsync),
 				cancellationToken: cancellationToken)
 			.ConfigureAwait(false);
 
@@ -301,7 +292,7 @@ internal class GameApiClient(
 				apiUrl: apiUrl,
 				path: "/IntegrationService/v3/http/CasinoGameAPI/getLobbyGames/",
 				parameters: parameters,
-				logPrefix: " GetLobbyGames",
+				logPrefix: nameof(GetLobbyGamesAsync),
 				cancellationToken: cancellationToken)
 			.ConfigureAwait(false);
 
@@ -333,23 +324,18 @@ internal class GameApiClient(
 				GameIdNumeric = game["gameIdNumeric"]!.GetValue<int>(),
 				GameName = game["gameName"]!.GetValue<string>(),
 				GameTypeID = game["gameTypeID"]!.GetValue<string>(),
-				Jurisdictions = string.Join(",", JsonSerializer.Deserialize<IEnumerable<string>>(game["jurisdictions"]) ?? Enumerable.Empty<string>()),
+				Jurisdictions = string.Join(",", JsonSerializer.Deserialize<IEnumerable<string>>(game["jurisdictions"]) ?? []),
 				Lines = game["lines"]!.GetValue<int>(),
 				FrbAvailable = game["frbAvailable"]!.GetValue<bool>(),
 				VariableFrbAvailable = game["variableFrbAvailable"]!.GetValue<bool>(),
-				Features = string.Join(",", JsonSerializer.Deserialize<IEnumerable<string>>(game["features"]) ?? Enumerable.Empty<string>()),
+				Features = string.Join(",", JsonSerializer.Deserialize<IEnumerable<string>>(game["features"]) ?? []),
 				DemoGameAvailable = game["demoGameAvailable"]!.GetValue<bool>(),
 				SortingOrder = game["sortingOrder"]!.GetValue<int>(),
 			};
 		}
 	}
 
-	public async ValueTask LogoutAsync(
-		Uri apiUrl,
-		string secureLogin,
-		string secretKey,
-		string externalPlayerId,
-		CancellationToken cancellationToken = default)
+	public async ValueTask LogoutAsync(Uri apiUrl, string secureLogin, string secretKey, string externalPlayerId, CancellationToken cancellationToken = default)
 	{
 		var parameters = new Dictionary<string, string>
 		{
@@ -364,17 +350,12 @@ internal class GameApiClient(
 				apiUrl: apiUrl,
 				path: "/IntegrationService/v3/http/CasinoGameAPI/game/session/terminate/",
 				parameters: parameters,
-				logPrefix: "Logout",
+				logPrefix: nameof(LogoutAsync),
 				cancellationToken: cancellationToken)
 			.ConfigureAwait(false);
 	}
 
-	public async ValueTask<bool> TransferStatusAsync(
-		Uri apiUrl,
-		string secureLogin,
-		string secretKey,
-		string externalTransactionId,
-		CancellationToken cancellationToken = default)
+	public async ValueTask<bool> TransferStatusAsync(Uri apiUrl, string secureLogin, string secretKey, string externalTransactionId, CancellationToken cancellationToken = default)
 	{
 		var parameters = new Dictionary<string, string>
 		{
@@ -389,7 +370,7 @@ internal class GameApiClient(
 				apiUrl: apiUrl,
 				path: "/IntegrationService/v3/http/CasinoGameAPI/balance/transfer/status/",
 				parameters: parameters,
-				logPrefix: "FundOrderChecking",
+				logPrefix: nameof(TransferStatusAsync),
 				cancellationToken: cancellationToken)
 			.ConfigureAwait(false);
 
@@ -402,14 +383,7 @@ internal class GameApiClient(
 			: true;
 	}
 
-	public async ValueTask<WithdrawalResult> WithdrawAsync(
-		Uri apiUrl,
-		string secureLogin,
-		string secretKey,
-		string externalPlayerId,
-		string externalTransactionId,
-		decimal amount,
-		CancellationToken cancellationToken = default)
+	public async ValueTask<WithdrawalResult> WithdrawAsync(Uri apiUrl, string secureLogin, string secretKey, string externalPlayerId, string externalTransactionId, decimal amount, CancellationToken cancellationToken = default)
 	{
 		var parameters = new Dictionary<string, string>
 		{
@@ -426,7 +400,7 @@ internal class GameApiClient(
 				apiUrl: apiUrl,
 				path: "/IntegrationService/v3/http/CasinoGameAPI/balance/transfer/",
 				parameters: parameters,
-				logPrefix: " Withdraw",
+				logPrefix: nameof(WithdrawAsync),
 				cancellationToken: cancellationToken)
 			.ConfigureAwait(false);
 
@@ -441,14 +415,8 @@ internal class GameApiClient(
 			Res: jsonNode.ToJsonString());
 	}
 
-	private async ValueTask<JsonNode> PostAsync(
-		Uri apiUrl,
-		string path,
-		IEnumerable<KeyValuePair<string, string>> parameters,
-		string logPrefix,
-		CancellationToken cancellationToken = default)
+	private async ValueTask<JsonNode> PostAsync(Uri apiUrl, string path, IEnumerable<KeyValuePair<string, string>> parameters, string logPrefix, CancellationToken cancellationToken = default)
 	{
-		logPrefix = $"{nameof(GameApiClient)}.{logPrefix}".ToLower();
 		var url = new Uri(apiUrl, path);
 
 		var sw = Stopwatch.StartNew();
@@ -470,14 +438,13 @@ internal class GameApiClient(
 			responseMessage = await sr.ReadToEndAsync(cancellationToken).ConfigureAwait(false) ?? string.Empty;
 		}
 
-		var apiLogEvent = new GameApiLogEvent
+		var apiLogEvent = new
 		{
 			Path = httpResponseMessage.RequestMessage?.RequestUri?.AbsoluteUri.NoLongerThan(512) ?? string.Empty,
 			Method = httpResponseMessage.RequestMessage?.Method.ToString().NoLongerThan(8) ?? string.Empty,
 			Prefix = logPrefix,
 			ServerName = Environment.MachineName.NoLongerThan(128),
-			RequestHeaders = httpResponseMessage.RequestMessage?.Headers
-							 + httpResponseMessage.RequestMessage?.Content?.Headers?.ToString(),
+			RequestHeaders = httpResponseMessage.RequestMessage?.Headers + httpResponseMessage.RequestMessage?.Content?.Headers?.ToString(),
 			RequestContent = (await content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false)).NoLongerThan(4096),
 			ResponseHeaders = httpResponseMessage.Headers.ToString(),
 			ResponseContent = responseMessage.NoLongerThan(4096),

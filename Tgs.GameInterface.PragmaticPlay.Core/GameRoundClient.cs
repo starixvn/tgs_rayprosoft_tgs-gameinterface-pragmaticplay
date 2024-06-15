@@ -14,12 +14,7 @@ internal class GameRoundClient(
 	ILogger<GameRoundClient> logger,
 	HttpClient client) : IGameRoundClient
 {
-	public async ValueTask<GameRoundsResult<GameRoundByLiveData>> GetGameRoundByLiveAsync(
-		Uri apiUrl,
-		string secureLogin,
-		string secretKey,
-		DateTimeOffset startTime,
-		CancellationToken cancellationToken = default)
+	public async ValueTask<GameRoundsResult<GameRoundByLiveData>> GetGameRoundByLiveAsync(Uri apiUrl, string secureLogin, string secretKey, DateTimeOffset startTime, CancellationToken cancellationToken = default)
 	{
 		var query = HttpUtility.ParseQueryString(string.Empty);
 		query["login"] = secureLogin;
@@ -31,9 +26,9 @@ internal class GameRoundClient(
 		var url = new Uri(apiUrl, $"/IntegrationService/v3/DataFeeds/gamerounds/?{query}");
 
 		var data = await GetCsvAsync(
-				apiUrl: url,
-				logPrefix: $"GameRounds.{query["dataType"]!}",
-				cancellationToken: cancellationToken)
+			apiUrl: url,
+			logPrefix: nameof(GetGameRoundByLiveAsync),
+			cancellationToken: cancellationToken)
 			.ConfigureAwait(false);
 
 		if (string.IsNullOrEmpty(data) || !data.StartsWith("timepoint"))
@@ -41,7 +36,7 @@ internal class GameRoundClient(
 			logger.LogWarning("The game provider responded with an error.({data})", data);
 			return new GameRoundsResult<GameRoundByLiveData>(
 				DateTimeOffset.UnixEpoch,
-				Enumerable.Empty<GameRoundByLiveData>());
+				[]);
 		}
 
 		using var stringReader = new StringReader(data);
@@ -65,12 +60,7 @@ internal class GameRoundClient(
 		return new GameRoundsResult<GameRoundByLiveData>(nextTime, gameRecords);
 	}
 
-	public async ValueTask<GameRoundsResult<GameRoundBySlotData>> GetGameRoundBySlotAsync(
-			Uri apiUrl,
-		string secureLogin,
-		string secretKey,
-		DateTimeOffset startTime,
-		CancellationToken cancellationToken = default)
+	public async ValueTask<GameRoundsResult<GameRoundBySlotData>> GetGameRoundBySlotAsync(Uri apiUrl, string secureLogin, string secretKey, DateTimeOffset startTime, CancellationToken cancellationToken = default)
 	{
 		var query = HttpUtility.ParseQueryString(string.Empty);
 		query["login"] = secureLogin;
@@ -82,9 +72,9 @@ internal class GameRoundClient(
 		var url = new Uri(apiUrl, $"/IntegrationService/v3/DataFeeds/gamerounds/?{query}");
 
 		var data = await GetCsvAsync(
-				apiUrl: url,
-				logPrefix: $"GameRounds.{query["dataType"]!}",
-				cancellationToken: cancellationToken)
+			apiUrl: url,
+			logPrefix: nameof(GetGameRoundBySlotAsync),
+			cancellationToken: cancellationToken)
 			.ConfigureAwait(false);
 
 		if (string.IsNullOrEmpty(data) || !data.StartsWith("timepoint"))
@@ -92,7 +82,7 @@ internal class GameRoundClient(
 			logger.LogWarning("The game provider responded with an error.({data})", data);
 			return new GameRoundsResult<GameRoundBySlotData>(
 				DateTimeOffset.UnixEpoch,
-				Enumerable.Empty<GameRoundBySlotData>());
+				[]);
 		}
 
 		using var stringReader = new StringReader(data);
@@ -116,12 +106,7 @@ internal class GameRoundClient(
 		return new GameRoundsResult<GameRoundBySlotData>(nextTime, gameRecords);
 	}
 
-	public async ValueTask<GameRoundsResult<GameRoundByVirtualSportsData>> GetGameRoundByVirtualSportsAsync(
-		Uri apiUrl,
-		string secureLogin,
-		string secretKey,
-		DateTimeOffset startTime,
-		CancellationToken cancellationToken = default)
+	public async ValueTask<GameRoundsResult<GameRoundByVirtualSportsData>> GetGameRoundByVirtualSportsAsync(Uri apiUrl, string secureLogin, string secretKey, DateTimeOffset startTime, CancellationToken cancellationToken = default)
 	{
 		var query = HttpUtility.ParseQueryString(string.Empty);
 		query["login"] = secureLogin;
@@ -133,9 +118,9 @@ internal class GameRoundClient(
 		var url = new Uri(apiUrl, $"/IntegrationService/v3/DataFeeds/gamerounds/?{query}");
 
 		var data = await GetCsvAsync(
-				apiUrl: url,
-				logPrefix: $"GameRounds.{query["dataType"]!}",
-				cancellationToken: cancellationToken)
+			apiUrl: url,
+			logPrefix: nameof(GetGameRoundByVirtualSportsAsync),
+			cancellationToken: cancellationToken)
 			.ConfigureAwait(false);
 
 		if (string.IsNullOrEmpty(data) || !data.StartsWith("timepoint"))
@@ -143,7 +128,7 @@ internal class GameRoundClient(
 			logger.LogWarning("The game provider responded with an error.({data})", data);
 			return new GameRoundsResult<GameRoundByVirtualSportsData>(
 				DateTimeOffset.UnixEpoch,
-				Enumerable.Empty<GameRoundByVirtualSportsData>());
+				[]);
 		}
 
 		using var stringReader = new StringReader(data);
@@ -167,18 +152,13 @@ internal class GameRoundClient(
 		return new GameRoundsResult<GameRoundByVirtualSportsData>(nextTime, gameRecords);
 	}
 
-	private async ValueTask<string?> GetCsvAsync(
-		Uri apiUrl,
-		string logPrefix,
-		CancellationToken cancellationToken = default)
+	private async ValueTask<string?> GetCsvAsync(Uri apiUrl, string logPrefix, CancellationToken cancellationToken = default)
 	{
-		logPrefix = $"{nameof(GameApiClient)}.{logPrefix}".ToLower();
-
 		var sw = Stopwatch.StartNew();
-		var httpResponseMessage = await client
-		.GetAsync(
-				requestUri: apiUrl,
-				cancellationToken: cancellationToken)
+
+		var httpResponseMessage = await client.GetAsync(
+			requestUri: apiUrl,
+			cancellationToken: cancellationToken)
 			.ConfigureAwait(false);
 
 		sw.Stop();
@@ -190,14 +170,13 @@ internal class GameRoundClient(
 			responseMessage = await sr.ReadToEndAsync(cancellationToken).ConfigureAwait(false) ?? string.Empty;
 		}
 
-		var apiLogEvent = new GameApiLogEvent
+		var apiLogEvent = new
 		{
 			Path = httpResponseMessage.RequestMessage?.RequestUri?.AbsoluteUri.NoLongerThan(512) ?? string.Empty,
 			Method = httpResponseMessage.RequestMessage?.Method.ToString().NoLongerThan(8) ?? string.Empty,
 			Prefix = logPrefix,
 			ServerName = Environment.MachineName.NoLongerThan(128),
-			RequestHeaders = httpResponseMessage.RequestMessage?.Headers
-						   + httpResponseMessage.RequestMessage?.Content?.Headers?.ToString(),
+			RequestHeaders = httpResponseMessage.RequestMessage?.Headers + httpResponseMessage.RequestMessage?.Content?.Headers?.ToString(),
 			RequestContent = string.Empty,
 			ResponseHeaders = httpResponseMessage.Headers.ToString(),
 			ResponseContent = responseMessage.NoLongerThan(4096),
