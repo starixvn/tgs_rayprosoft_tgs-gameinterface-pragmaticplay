@@ -216,6 +216,7 @@ message GameRecordData {
 	phoenix.protobuf.DecimalValue settle = 8;
 	phoenix.protobuf.DecimalValue win_loss = 9;
 	string additional_data = 10;
+	bool is_cancel= 11;
 }
 
 message GameRecordDetailReply{

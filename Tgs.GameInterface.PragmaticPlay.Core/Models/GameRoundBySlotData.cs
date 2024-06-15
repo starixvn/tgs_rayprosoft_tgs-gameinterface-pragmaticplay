@@ -11,7 +11,7 @@ public class GameRoundBySlotData
 	public string Currency { get; set; } = default!;
 
 	[Name("endDate")]
-	public string EndDate { get; set; } = default!;
+	public string? EndDate { get; set; } = default!;
 
 	[Name("extPlayerID")]
 	public string ExtPlayerID { get; set; } = default!;
@@ -23,7 +23,7 @@ public class GameRoundBySlotData
 	public decimal Jackpot { get; set; }
 
 	[Name("parentSessionID")]
-	public string ParentSessionID { get; set; } = default!;
+	public string? ParentSessionID { get; set; } = default!;
 
 	[Name("playerID")]
 	public long PlayerID { get; set; } = default!;

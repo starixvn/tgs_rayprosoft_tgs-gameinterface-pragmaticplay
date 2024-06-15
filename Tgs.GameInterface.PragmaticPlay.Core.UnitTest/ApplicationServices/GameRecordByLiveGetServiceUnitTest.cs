@@ -19,7 +19,7 @@ public class GameRecordByLiveGetServiceUnitTest
 
 		var result = new GameRoundsResult<GameRoundByLiveData>(
 			 NextTime: DateTimeOffset.FromUnixTimeMilliseconds(1682047923236),
-			 GameRoundDatas: new GameRoundByLiveData[]{
+			 GameRoundDatas: [
 				 new()  {
 					 PlayerID=1652690393452,
 					 ExtPlayerID="4ucmqplxb029",
@@ -36,7 +36,7 @@ public class GameRecordByLiveGetServiceUnitTest
 					 Jackpot=0.00m,
 					 RoundDetails="{\"result\":\"Player\",\"bets\":[{\"c\":\"Plyr(NoComm)\",\"a\":\"1\"}]}"
 				  }
-			 });
+			 ]);
 		_ = fakeClient
 			.GetGameRoundByLiveAsync(
 				apiUrl: Arg.Is(query.ApiUrl),
@@ -55,6 +55,7 @@ public class GameRecordByLiveGetServiceUnitTest
 		Assert.Equal(result.NextTime, actual.NextTime);
 		Assert.True(actual.GameRecordDatas.Any());
 		Assert.True(actual.GameRecordDatas.Single().IsClosed);
+		Assert.False(actual.GameRecordDatas.Single().IsCancel);
 		Assert.Equal("439", actual.GameRecordDatas.Single().ExternalGameId);
 		Assert.Equal(DateTimeOffset.Parse("2023-04-21T03:24:14+00:00"), actual.GameRecordDatas.Single().ExternalCreatedOn);
 		Assert.Equal(DateTimeOffset.Parse("2023-04-21T03:24:38+00:00"), actual.GameRecordDatas.Single().ExternalClosedOn);
@@ -76,7 +77,7 @@ public class GameRecordByLiveGetServiceUnitTest
 
 		var result = new GameRoundsResult<GameRoundByLiveData>(
 			 NextTime: DateTimeOffset.FromUnixTimeMilliseconds(1682047923236),
-			 GameRoundDatas: new GameRoundByLiveData[]{
+			 GameRoundDatas: [
 				 new()  {
 					 PlayerID=1652690393452,
 					 ExtPlayerID="4ucmqplxb029",
@@ -93,7 +94,7 @@ public class GameRecordByLiveGetServiceUnitTest
 					 Jackpot=0.00m,
 					 RoundDetails=""
 				  }
-			 });
+			 ]);
 		_ = fakeClient
 			.GetGameRoundByLiveAsync(
 				apiUrl: Arg.Is(query.ApiUrl),
@@ -112,6 +113,7 @@ public class GameRecordByLiveGetServiceUnitTest
 		Assert.Equal(result.NextTime, actual.NextTime);
 		Assert.True(actual.GameRecordDatas.Any());
 		Assert.False(actual.GameRecordDatas.Single().IsClosed);
+		Assert.False(actual.GameRecordDatas.Single().IsCancel);
 		Assert.Equal("439", actual.GameRecordDatas.Single().ExternalGameId);
 		Assert.Equal(DateTimeOffset.Parse("2023-04-21T03:24:47+00:00"), actual.GameRecordDatas.Single().ExternalCreatedOn);
 		Assert.Equal(DateTimeOffset.UnixEpoch, actual.GameRecordDatas.Single().ExternalClosedOn);

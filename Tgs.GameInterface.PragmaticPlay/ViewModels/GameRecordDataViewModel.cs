@@ -5,6 +5,7 @@ public record GameRecordDataViewModel(
 	string ExternalGameId,
 	string PlayerCode,
 	bool IsClosed,
+	bool IsCancel,
 	DateTimeOffset ExternalCreatedOn,
 	DateTimeOffset ExternalClosedOn,
 	decimal Bet,
