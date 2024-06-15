@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgs.GameInterface.Pragmatic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgs.GameInterface.PragmaticPlay.Client", "Tgs.GameInterface.PragmaticPlay.Client\Tgs.GameInterface.PragmaticPlay.Client.csproj", "{8347F692-2142-43B9-B8EF-E321656F9A73}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgs.GameInterface.PragmaticPlay.Protos", "Tgs.GameInterface.PragmaticPlay.Protos\Tgs.GameInterface.PragmaticPlay.Protos.csproj", "{B2969BE2-BB92-49B2-A3B6-3AF1FA2A7D78}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgs.GameInterface.PragmaticPlay.Protos", "Tgs.GameInterface.PragmaticPlay.Protos\Tgs.GameInterface.PragmaticPlay.Protos.csproj", "{B2969BE2-BB92-49B2-A3B6-3AF1FA2A7D78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgs.GameInterface.PragmaticPlay.IntegrationTest", "Tgs.GameInterface.PragmaticPlay.IntegrationTest\Tgs.GameInterface.PragmaticPlay.IntegrationTest.csproj", "{9EAAFC89-A248-4BA2-9752-11DF28D93E47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{B2969BE2-BB92-49B2-A3B6-3AF1FA2A7D78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2969BE2-BB92-49B2-A3B6-3AF1FA2A7D78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2969BE2-BB92-49B2-A3B6-3AF1FA2A7D78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EAAFC89-A248-4BA2-9752-11DF28D93E47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EAAFC89-A248-4BA2-9752-11DF28D93E47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EAAFC89-A248-4BA2-9752-11DF28D93E47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EAAFC89-A248-4BA2-9752-11DF28D93E47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

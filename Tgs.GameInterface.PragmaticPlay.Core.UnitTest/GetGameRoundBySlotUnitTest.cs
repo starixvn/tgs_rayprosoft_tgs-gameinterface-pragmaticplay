@@ -212,4 +212,56 @@ public class GetGameRoundBySlotUnitTest
 		Assert.Equal("VND2", actual.GameRoundDatas.Single().Currency);
 		Assert.Equal(0.00m, actual.GameRoundDatas.Single().Jackpot);
 	}
+
+	[Fact]
+	public async Task Normal_Process_Cancel()
+	{
+		var apiUrl = new Uri("https://api.prerelease-env.biz");
+		var secureLogin = "secureLogin";
+		var secretKey = "secretKey";
+		var startTime = DateTimeOffset.Parse("2023-04-21T13:36:00+08:00");
+
+		var fakeLog = NullLogger<GameRoundClient>.Instance;
+
+		var query = HttpUtility.ParseQueryString(string.Empty);
+		query["login"] = secureLogin;
+		query["password"] = secretKey;
+		query["dataType"] = DataType.RNG.ToString();
+		query["timepoint"] = startTime.ToUnixTimeMilliseconds().ToString();
+		query["options"] = "addRoundDetails";
+
+		var response = "timepoint=1717479120000\r\n" +
+			"playerID,extPlayerID,gameID,playSessionID,parentSessionID,startDate,endDate,status,type,bet,win,currency,jackpot\r\n" +
+			"6270808,4udvzfxyzowl,vswayscharms,620757986000,null,2024-06-04 05:25:25,null,C,R,6.00,0.00,CNY,0.00";
+		var responseContent = new StringContent(response, Encoding.UTF8, "text/csv");
+
+		var handler = new MockHttpMessageHandler();
+		_ = handler.Expect(HttpMethod.Get, "/IntegrationService/v3/DataFeeds/gamerounds/")
+			.WithQueryString(query.ToString()!)
+			.Respond(HttpStatusCode.OK, responseContent);
+
+		var fakeHttpClient = handler.ToHttpClient();
+
+		var client = new GameRoundClient(
+			fakeLog,
+			fakeHttpClient);
+
+		var actual = await client.GetGameRoundBySlotAsync(
+			apiUrl: apiUrl,
+			secureLogin: secureLogin,
+			secretKey: secretKey,
+			startTime: startTime);
+
+		Assert.NotNull(actual);
+		Assert.Equal("1717479120000", actual.NextTime.ToUnixTimeMilliseconds().ToString());
+		Assert.Equal("4udvzfxyzowl", actual.GameRoundDatas.Single().ExtPlayerID);
+		Assert.Equal("620757986000", actual.GameRoundDatas.Single().PlaySessionID);
+		Assert.Equal("vswayscharms", actual.GameRoundDatas.Single().GameID);
+		Assert.Null(actual.GameRoundDatas.Single().ParentSessionID);
+		Assert.Equal("2024-06-04 05:25:25", actual.GameRoundDatas.Single().StartDate);
+		Assert.Null(actual.GameRoundDatas.Single().EndDate);
+		Assert.Equal("C", actual.GameRoundDatas.Single().Status);
+		Assert.Equal("R", actual.GameRoundDatas.Single().Type);
+		Assert.Equal(6.00m, actual.GameRoundDatas.Single().Bet);
+	}
 }

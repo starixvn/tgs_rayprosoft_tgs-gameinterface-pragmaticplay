@@ -29,10 +29,10 @@ internal class GameRecordByLiveGetService(
          *      免费旋转进行玩时候win部分会算主单
          *      免费旋转的bet和win值是0.00
          */
-		return !(result.GameRoundDatas ?? Enumerable.Empty<GameRoundByLiveData>()).Any()
+		return !(result.GameRoundDatas ?? []).Any()
 			? new GameRecordResult(
 				NextTime: result.NextTime,
-				GameRecordDatas: Enumerable.Empty<GameRecordData>())
+				GameRecordDatas: [])
 			: new GameRecordResult(
 				NextTime: result.NextTime,
 				GameRecordDatas: result.GameRoundDatas!
@@ -42,10 +42,13 @@ internal class GameRecordByLiveGetService(
 					ExternalGameId: gameround.GameID,
 					PlayerCode: gameround.ExtPlayerID,
 					IsClosed: gameround.Status.Equals("C", StringComparison.OrdinalIgnoreCase),
+					IsCancel: gameround.Status.Equals("C", StringComparison.OrdinalIgnoreCase) && string.IsNullOrEmpty(gameround.EndDate),
 					ExternalCreatedOn: DateTimeOffset.Parse(gameround.StartDate, null, DateTimeStyles.AssumeUniversal),
 					ExternalClosedOn: gameround.Status.Equals("I", StringComparison.OrdinalIgnoreCase)
 					? DateTimeOffset.UnixEpoch
-					: DateTimeOffset.Parse(gameround.EndDate, null, DateTimeStyles.AssumeUniversal),
+					: !string.IsNullOrEmpty(gameround.EndDate)
+						? DateTimeOffset.Parse(gameround.EndDate, null, DateTimeStyles.AssumeUniversal)
+						: DateTimeOffset.Parse(gameround.StartDate, null, DateTimeStyles.AssumeUniversal),
 					Bet: gameround.Bet,
 					Settle: gameround.Win,
 					WinLoss: gameround.Status.Equals("I", StringComparison.OrdinalIgnoreCase)
