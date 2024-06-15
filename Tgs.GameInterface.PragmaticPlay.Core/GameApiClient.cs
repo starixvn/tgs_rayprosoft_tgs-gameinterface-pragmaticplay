@@ -19,7 +19,7 @@ internal class GameApiClient(
 		var parameters = new Dictionary<string, string>
 		{
 			["secureLogin"] = secureLogin,
-			["playerId"] = externalPlayerId,
+			["externalPlayerId"] = externalPlayerId,
 			["gameId"] = gameId,
 			["roundId"] = roundId
 		};
