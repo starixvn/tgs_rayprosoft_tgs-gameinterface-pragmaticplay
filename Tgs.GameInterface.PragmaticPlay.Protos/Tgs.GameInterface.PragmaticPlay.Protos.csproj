@@ -8,20 +8,15 @@
 
 	<ItemGroup>
 		<None Remove="gameinterfacepragmaticplay.proto" />
-		<None Remove="google\api\annotations.proto" />
-		<None Remove="google\api\http.proto" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Grpc.AspNetCore" Version="2.63.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Grpc.JsonTranscoding" Version="8.0.6" />
 		<PackageReference Include="PhoenixToolkits.Protobuf.ExtendTypes" Version="0.0.7" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Protobuf Include="GameInterfacePragmaticPlay.proto" />
-		<Protobuf Include="google\api\annotations.proto" GrpcServices="None" />
-		<Protobuf Include="google\api\http.proto" GrpcServices="None" />
 	</ItemGroup>
 
 </Project>

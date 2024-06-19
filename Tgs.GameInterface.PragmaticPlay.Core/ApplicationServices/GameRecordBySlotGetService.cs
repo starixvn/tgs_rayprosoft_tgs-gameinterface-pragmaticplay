@@ -1,6 +1,5 @@
 ﻿using System.Globalization;
 using System.Text.Json;
-using Tgs.GameInterface.PragmaticPlay.Core.Models;
 using Tgs.ServiceUtility;
 
 namespace Tgs.GameInterface.PragmaticPlay.Core.ApplicationServices;

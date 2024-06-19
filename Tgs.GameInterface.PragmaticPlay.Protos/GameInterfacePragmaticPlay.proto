@@ -1,6 +1,5 @@
 ﻿syntax = "proto3";
-//import "google/api/http.proto";
-import "google/api/annotations.proto";
+
 import "phoenix/protobuf/decimal.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -11,90 +10,18 @@ package GameInterfacePragmaticPlay;
 // The greeting service definition.
 service GameInterfacePragmaticPlay {
   // Sends a greeting
-  rpc PlayerCreate (PlayerCreateRequest) returns (BaseReply){
-    option (google.api.http) = {
-      post: "/pp/player/create",
-      body: "*"
-    };
-  };
-
-  rpc PlayerBalance (PlayerBalanceRequest) returns (PlayerBalanceReply){
-    option (google.api.http) = {
-      post: "/pp/player/balance",
-      body: "*"
-    };
-  };
-
-  rpc PlayerLogout (PlayerLogoutRequest) returns (BaseReply){
-    option (google.api.http) = {
-      post: "/pp/player/logout",
-      body: "*"
-    };
-  };
-
-  rpc FundIn (FundRequest) returns (FundReply){
-    option (google.api.http) = {
-      post: "/pp/fund/in",
-      body: "*"
-    };
-  };
-
-  rpc FundOut (FundRequest) returns (FundReply){
-    option (google.api.http) = {
-      post: "/pp/fund/out",
-      body: "*"
-    };
-  };
-
-  rpc FundStatus(FundStatusRequest) returns (BaseReply){
-    option (google.api.http) = {
-      post: "/pp/fund/status",
-      body: "*"
-    };
-  };
-
-  rpc GameUrl (GameUrlRequest) returns (GameUrlReply){
-    option (google.api.http) = {
-      post: "/pp/gameurl",
-      body: "*"
-    };
-  };
-
-  rpc GameRecordByLive (GameRecordRequest) returns (GameRecordReply){
-    option (google.api.http) = {
-      post: "/pp/game/record/live",
-      body: "*"
-    };
-  };
-
-  rpc GameRecordBySlot (GameRecordRequest) returns (GameRecordReply){
-    option (google.api.http) = {
-      post: "/pp/game/record/slot",
-      body: "*"
-    };
-  };
-
-  rpc GameRecordByVirtualSports (GameRecordRequest) returns (GameRecordReply){
-    option (google.api.http) = {
-      post: "/pp/game/record/virtual-sports",
-      body: "*"
-    };
-  };
-
-  rpc GameRecordDetail (GameRecordDetailRequest) returns (GameRecordDetailReply){
-    option (google.api.http) = {
-      post: "/pp/game/record/detail",
-      body: "*"
-    };
-  };
-
-   rpc GameRecordCancelRound (GameRecordCancelRoundRequest) returns (BaseReply){
-    option (google.api.http) = {
-      post: "/pp/game/record/cancel",
-      body: "*"
-    };
-  };
-
+  rpc PlayerCreate (PlayerCreateRequest) returns (BaseReply);
+  rpc PlayerBalance (PlayerBalanceRequest) returns (PlayerBalanceReply);
+  rpc PlayerLogout (PlayerLogoutRequest) returns (BaseReply);
+  rpc FundIn (FundRequest) returns (FundReply);
+  rpc FundOut (FundRequest) returns (FundReply);
+  rpc FundStatus(FundStatusRequest) returns (BaseReply);
+  rpc GameUrl (GameUrlRequest) returns (GameUrlReply);
+  rpc GameRecordByLive (GameRecordRequest) returns (GameRecordReply);
+  rpc GameRecordBySlot (GameRecordRequest) returns (GameRecordReply);
+  rpc GameRecordByVirtualSports (GameRecordRequest) returns (GameRecordReply);
+  rpc GameRecordDetail (GameRecordDetailRequest) returns (GameRecordDetailReply);
+  rpc GameRecordCancelRound (GameRecordCancelRoundRequest) returns (BaseReply);
   rpc CheckingService(CheckingServiceRequest) returns (CheckingServiceReply);
 }
 
