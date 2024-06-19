@@ -6,6 +6,7 @@ using Tgs.GameInterface.PragmaticPlay.Core.ApplicationServices;
 using Tgs.ServiceUtility;
 
 namespace Tgs.GameInterface.PragmaticPlay.IntegrationTest;
+
 public class GameRecordBySlotUnitTest
 {
 	[Fact]
