@@ -119,7 +119,7 @@ message PlayerBalanceReply {
 message FundReply {
 	int64 transaction_id = 1;
 	phoenix.protobuf.DecimalValue balance = 2;
-	string res = 3;
+	string resp = 3;
 }
 
 message GameUrlReply{

@@ -51,7 +51,7 @@ public class GameInterfacePragmaticPlayGrpcService(
 		{
 			TransactionId = result.TransactionId,
 			Balance = result.Balance,
-			Res = result.Res
+			Resp = result.Resp
 		};
 	}
 
@@ -75,7 +75,7 @@ public class GameInterfacePragmaticPlayGrpcService(
 		{
 			TransactionId = result.TransactionId,
 			Balance = result.Balance,
-			Res = result.Res
+			Resp = result.Resp
 		};
 	}
 

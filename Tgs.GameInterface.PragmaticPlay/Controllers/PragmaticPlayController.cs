@@ -50,7 +50,7 @@ public class PragmaticPlayController : ControllerBase
 		return new FundResultViewModel(
 			TransactionId: result.TransactionId,
 			Balance: result.Balance,
-			Res: result.Res);
+			Resp: result.Resp);
 	}
 
 	/// <summary>
@@ -94,7 +94,7 @@ public class PragmaticPlayController : ControllerBase
 		return new FundResultViewModel(
 			TransactionId: result.TransactionId,
 			Balance: result.Balance,
-			Res: result.Res);
+			Resp: result.Resp);
 	}
 
 	/// <summary>

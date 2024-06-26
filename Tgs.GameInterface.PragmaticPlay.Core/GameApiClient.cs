@@ -102,7 +102,7 @@ internal class GameApiClient(
 			: new DepositResult(
 			TransactionId: jsonNode["transactionId"]!.GetValue<long>(),
 			Balance: jsonNode["balance"]!.GetValue<decimal>(),
-			Res: jsonNode.ToJsonString());
+			Resp: jsonNode.ToJsonString());
 	}
 
 	public async ValueTask<BalanceResult> GetBalanceAsync(Uri apiUrl, string secureLogin, string secretKey, string externalPlayerId, CancellationToken cancellationToken = default)
@@ -412,7 +412,7 @@ internal class GameApiClient(
 			: new WithdrawalResult(
 			TransactionId: jsonNode["transactionId"]!.GetValue<long>(),
 			Balance: jsonNode["balance"]!.GetValue<decimal>(),
-			Res: jsonNode.ToJsonString());
+			Resp: jsonNode.ToJsonString());
 	}
 
 	private async ValueTask<JsonNode> PostAsync(Uri apiUrl, string path, IEnumerable<KeyValuePair<string, string>> parameters, string logPrefix, CancellationToken cancellationToken = default)
