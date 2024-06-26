@@ -21,6 +21,6 @@ internal class FundInGetService(
 		return new FundResult(
 			TransactionId: result.TransactionId,
 			Balance: result.Balance,
-			Res: result.Res);
+			Resp: result.Resp);
 	}
 }

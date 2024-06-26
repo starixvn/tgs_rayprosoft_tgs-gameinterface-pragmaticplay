@@ -3,4 +3,4 @@
 public record FundResultViewModel(
 	long TransactionId,
 	decimal Balance,
-	string Res);
+	string Resp);
